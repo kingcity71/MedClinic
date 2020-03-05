@@ -32,3 +32,4 @@ D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\staticwebassets\M
 D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.dll
 D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.pdb
 D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.csproj.CopyComplete
+D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.MvcApplicationPartsAssemblyInfo.cache

@@ -3,3 +3,9 @@ D:\repos\MedClinic\MedClinic\MedClinic.Data\bin\Debug\netcoreapp3.1\MedClinic.Da
 D:\repos\MedClinic\MedClinic\MedClinic.Data\obj\Debug\netcoreapp3.1\MedClinic.Data.csprojAssemblyReference.cache
 D:\repos\MedClinic\MedClinic\MedClinic.Data\obj\Debug\netcoreapp3.1\MedClinic.Data.AssemblyInfoInputs.cache
 D:\repos\MedClinic\MedClinic\MedClinic.Data\obj\Debug\netcoreapp3.1\MedClinic.Data.AssemblyInfo.cs
+D:\repos\MedClinic\MedClinic\MedClinic.Data\bin\Debug\netcoreapp3.1\MedClinic.Data.pdb
+D:\repos\MedClinic\MedClinic\MedClinic.Data\bin\Debug\netcoreapp3.1\MedClinic.Entity.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Data\bin\Debug\netcoreapp3.1\MedClinic.Entity.pdb
+D:\repos\MedClinic\MedClinic\MedClinic.Data\obj\Debug\netcoreapp3.1\MedClinic.Data.csproj.CopyComplete
+D:\repos\MedClinic\MedClinic\MedClinic.Data\obj\Debug\netcoreapp3.1\MedClinic.Data.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Data\obj\Debug\netcoreapp3.1\MedClinic.Data.pdb
