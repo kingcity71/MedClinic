@@ -6,20 +6,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MedClinic.Models;
+using MedClinic.Interfaces;
 
 namespace MedClinic.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IPatientService patientService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IPatientService patientService)
         {
             _logger = logger;
+            this.patientService = patientService;
         }
 
         public IActionResult Index()
         {
+            patientService.GetPatient(Guid.Empty);
             return View();
         }
 

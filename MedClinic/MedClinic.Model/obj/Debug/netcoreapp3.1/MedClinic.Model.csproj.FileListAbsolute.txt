@@ -1,0 +1,8 @@
+D:\repos\MedClinic\MedClinic\MedClinic.Model\bin\Debug\netcoreapp3.1\MedClinic.Model.deps.json
+D:\repos\MedClinic\MedClinic\MedClinic.Model\bin\Debug\netcoreapp3.1\MedClinic.Model.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Model\bin\Debug\netcoreapp3.1\MedClinic.Model.pdb
+D:\repos\MedClinic\MedClinic\MedClinic.Model\obj\Debug\netcoreapp3.1\MedClinic.Model.csprojAssemblyReference.cache
+D:\repos\MedClinic\MedClinic\MedClinic.Model\obj\Debug\netcoreapp3.1\MedClinic.Model.AssemblyInfoInputs.cache
+D:\repos\MedClinic\MedClinic\MedClinic.Model\obj\Debug\netcoreapp3.1\MedClinic.Model.AssemblyInfo.cs
+D:\repos\MedClinic\MedClinic\MedClinic.Model\obj\Debug\netcoreapp3.1\MedClinic.Model.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Model\obj\Debug\netcoreapp3.1\MedClinic.Model.pdb

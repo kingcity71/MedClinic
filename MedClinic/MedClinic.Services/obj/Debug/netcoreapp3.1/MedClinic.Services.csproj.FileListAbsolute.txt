@@ -1,0 +1,17 @@
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Data.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Entity.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Interfaces.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Model.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Data.pdb
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Entity.pdb
+D:\repos\MedClinic\MedClinic\MedClinic.Services\obj\Debug\netcoreapp3.1\MedClinic.Services.csprojAssemblyReference.cache
+D:\repos\MedClinic\MedClinic\MedClinic.Services\obj\Debug\netcoreapp3.1\MedClinic.Services.AssemblyInfoInputs.cache
+D:\repos\MedClinic\MedClinic\MedClinic.Services\obj\Debug\netcoreapp3.1\MedClinic.Services.AssemblyInfo.cs
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Services.deps.json
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Services.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Services.pdb
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Interfaces.pdb
+D:\repos\MedClinic\MedClinic\MedClinic.Services\bin\Debug\netcoreapp3.1\MedClinic.Model.pdb
+D:\repos\MedClinic\MedClinic\MedClinic.Services\obj\Debug\netcoreapp3.1\MedClinic.Services.csproj.CopyComplete
+D:\repos\MedClinic\MedClinic\MedClinic.Services\obj\Debug\netcoreapp3.1\MedClinic.Services.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Services\obj\Debug\netcoreapp3.1\MedClinic.Services.pdb
