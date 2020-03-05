@@ -10,7 +10,6 @@ D:\repos\MedClinic\MedClinic\MedClinic\bin\Debug\netcoreapp3.1\MedClinic.pdb
 D:\repos\MedClinic\MedClinic\MedClinic\bin\Debug\netcoreapp3.1\MedClinic.Views.dll
 D:\repos\MedClinic\MedClinic\MedClinic\bin\Debug\netcoreapp3.1\MedClinic.Views.pdb
 D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.csprojAssemblyReference.cache
-D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.MvcApplicationPartsAssemblyInfo.cache
 D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.RazorAssemblyInfo.cache
 D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.RazorAssemblyInfo.cs
 D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.AssemblyInfoInputs.cache
