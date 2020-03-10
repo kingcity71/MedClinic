@@ -23,9 +23,9 @@ namespace MedClinic.Services
 
         public PatientModel GetPatient(Guid id)
         {
-            var patient = context.Patients.FirstOrDefault();
+            var patient = context.Patients.FirstOrDefault(x=>x.Id==id);
             var patientModel = MapPatientModel(patient);
-            throw new NotImplementedException();
+            return patientModel;
         }
 
         public void UpdatePatient(PatientModel patientModel)

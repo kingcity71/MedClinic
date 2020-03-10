@@ -6,7 +6,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MedClinic.Interfaces\MedClinic.Interfaces.csproj" />
+    <ProjectReference Include="..\MedClinic.Model\MedClinic.Model.csproj" />
     <ProjectReference Include="..\MedClinic.Services\MedClinic.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
 

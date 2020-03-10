@@ -23,7 +23,6 @@ namespace MedClinic.Controllers
 
         public IActionResult Index()
         {
-            patientService.GetPatient(Guid.Empty);
             return View();
         }
 
