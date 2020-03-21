@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using MedClinic.Model;
 
 namespace MedClinic.Interfaces
@@ -8,5 +10,6 @@ namespace MedClinic.Interfaces
         void CreatePatient(PatientModel patientModel);
         PatientModel GetPatient(Guid id);
         void UpdatePatient(PatientModel patientModel);
+        IEnumerable<PatientDataModel> GetPatientData(Guid patientId);
     }
 }

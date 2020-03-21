@@ -414,3 +414,4 @@ D:\repos\MedClinic\MedClinic\MedClinic\bin\Debug\netcoreapp3.1\Microsoft.Extensi
 D:\repos\MedClinic\MedClinic\MedClinic\bin\Debug\netcoreapp3.1\System.Text.Json.dll
 D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.MvcApplicationPartsAssemblyInfo.cs
 D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\MedClinic.MvcApplicationPartsAssemblyInfo.cache
+D:\repos\MedClinic\MedClinic\MedClinic\obj\Debug\netcoreapp3.1\Razor\Views\Doctor\Home.cshtml.g.cs

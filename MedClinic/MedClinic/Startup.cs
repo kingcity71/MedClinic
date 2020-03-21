@@ -29,6 +29,7 @@ namespace MedClinic
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<MedClinicContext>();
             services.AddTransient<IPatientService, PatientService>();
+            services.AddTransient<IDoctorService, DoctorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
