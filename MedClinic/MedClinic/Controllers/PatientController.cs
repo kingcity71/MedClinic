@@ -28,5 +28,14 @@ namespace MedClinic.Controllers
             var patientDataViewModel = new PatientDataViewModel() { Patient = patient, PatientDatas = patientData };
             return View(patientDataViewModel);
         }
+
+        [HttpGet("patientConclusions/{patientId}")]
+        public IActionResult Conslusions(Guid patientId)
+        {
+            var patient = patienService.GetPatient(patientId);
+            var conclusions = patienService.GetConclusions(patientId);
+            var patientConclusionsViewModel = new PatientConclusionsViewModel() { Patient = patient, Conslusions = conclusions};
+            return View(patientConclusionsViewModel);
+        }
     }
 }

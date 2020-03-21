@@ -12,9 +12,9 @@ namespace MedClinic.Services
     public class PatientService : IPatientService
     {
         private readonly MedClinicContext context;
-        private readonly DoctorService doctorService;
+        private readonly IDoctorService doctorService;
 
-        public PatientService(MedClinicContext context, DoctorService doctorService)
+        public PatientService(MedClinicContext context, IDoctorService doctorService)
         {
             this.context = context;
             this.doctorService = doctorService;

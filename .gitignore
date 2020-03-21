@@ -1,2 +1,24 @@
 
 MedClinic/.vs/MedClinic/v16/Server/sqlite3/db.lock
+
+MedClinic/.vs/MedClinic/v16/.suo
+
+MedClinic/.vs/MedClinic/v16/Server/sqlite3/
+
+MedClinic/MedClinic.Interfaces/bin/Debug/netcoreapp3.1/
+
+MedClinic/MedClinic.Interfaces/obj/Debug/netcoreapp3.1/
+
+MedClinic/MedClinic.Model/bin/Debug/netcoreapp3.1/
+
+MedClinic/MedClinic/obj/
+
+MedClinic/MedClinic/bin/
+
+MedClinic/MedClinic.Model/bin/
+
+MedClinic/MedClinic.Model/obj/
+
+MedClinic/MedClinic.Services/bin/
+
+MedClinic/MedClinic.Services/obj/
