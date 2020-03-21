@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MedClinic.Interfaces;
+using MedClinic.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedClinic.Controllers
@@ -20,6 +18,15 @@ namespace MedClinic.Controllers
         {
             var patient = patienService.GetPatient(id);
             return View(patient);
+        }
+
+        [HttpGet("patientData/{patientId}")]
+        public IActionResult PatientData(Guid patientId)
+        {
+            var patient = patienService.GetPatient(patientId);
+            var patientData = patienService.GetPatientData(patientId);
+            var patientDataViewModel = new PatientDataViewModel() { Patient = patient, PatientDatas = patientData };
+            return View(patientDataViewModel);
         }
     }
 }

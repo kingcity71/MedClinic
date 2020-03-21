@@ -11,5 +11,6 @@ namespace MedClinic.Interfaces
         PatientModel GetPatient(Guid id);
         void UpdatePatient(PatientModel patientModel);
         IEnumerable<PatientDataModel> GetPatientData(Guid patientId);
+        IEnumerable<ConslusionModel> GetConclusions(Guid patientId);
     }
 }

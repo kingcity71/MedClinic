@@ -12,14 +12,33 @@ namespace MedClinic.Services
     public class PatientService : IPatientService
     {
         private readonly MedClinicContext context;
+        private readonly DoctorService doctorService;
 
-        public PatientService(MedClinicContext context)
+        public PatientService(MedClinicContext context, DoctorService doctorService)
         {
             this.context = context;
+            this.doctorService = doctorService;
         }
         public void CreatePatient(PatientModel patientModel)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<ConslusionModel> GetConclusions(Guid patientId)
+        {
+            var conclusions = context.Conclusions
+                .Where(x => x.PatientId == patientId)
+                .OrderBy(x=>x.Date)
+                .ToList();
+
+            var patientConclusionsModels = conclusions.Select(x => new ConslusionModel()
+            {
+                Date=x.Date,
+                Doctor = doctorService.GetDoctor(x.DoctorId),
+                Result = x.Result
+            }).ToList();
+
+            return patientConclusionsModels;
         }
 
         public PatientModel GetPatient(Guid id)
@@ -32,7 +51,9 @@ namespace MedClinic.Services
         public IEnumerable<PatientDataModel> GetPatientData(Guid patientId)
         {
             var patientData = context.PatientDatas
-                .Where(x => x.PatientId == patientId).ToList();
+                .Where(x => x.PatientId == patientId)
+                .OrderBy(x=>x.Date)
+                .ToList();
             var properties = context.Properties.ToList();
             var patientDataModels = patientData.Select(x => new PatientDataModel()
             {
