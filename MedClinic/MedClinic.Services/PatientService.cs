@@ -21,7 +21,9 @@ namespace MedClinic.Services
         }
         public void CreatePatient(PatientModel patientModel)
         {
-            throw new NotImplementedException();
+            var patient = MapPatientModel(patientModel);
+            context.Patients.Add(patient);
+            context.SaveChanges();
         }
 
         public IEnumerable<ConslusionModel> GetConclusions(Guid patientId)
@@ -44,6 +46,12 @@ namespace MedClinic.Services
         public PatientModel GetPatient(Guid id)
         {
             var patient = context.Patients.FirstOrDefault(x=>x.Id==id);
+            var patientModel = MapPatientModel(patient);
+            return patientModel;
+        }
+        public PatientModel GetPatient(string email)
+        {
+            var patient = context.Patients.FirstOrDefault(x => x.Email == email);
             var patientModel = MapPatientModel(patient);
             return patientModel;
         }
@@ -78,6 +86,16 @@ namespace MedClinic.Services
             var mapper = new Mapper(config);
             var patientModel = mapper.Map<PatientModel>(patient);
             return patientModel;
+        }
+
+        Patient MapPatientModel(PatientModel patientModel)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<PatientModel, Patient>()
+                .ForMember("Sex", opt => opt.MapFrom(p => p.IsMan == true)));
+            
+            var mapper = new Mapper(config);
+            var patient = mapper.Map<Patient>(patientModel);
+            return patient;
         }
     }
 }

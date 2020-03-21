@@ -9,6 +9,7 @@ namespace MedClinic.Interfaces
     {
         void CreatePatient(PatientModel patientModel);
         PatientModel GetPatient(Guid id);
+        PatientModel GetPatient(String email);
         void UpdatePatient(PatientModel patientModel);
         IEnumerable<PatientDataModel> GetPatientData(Guid patientId);
         IEnumerable<ConslusionModel> GetConclusions(Guid patientId);

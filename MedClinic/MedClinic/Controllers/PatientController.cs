@@ -13,6 +13,15 @@ namespace MedClinic.Controllers
         {
             this.patienService = patienService;
         }
+        
+        [HttpGet("patient/")]
+        public IActionResult Home()
+        {
+            var patientEmail = User.Identity.Name;
+            var patient = patienService.GetPatient(patientEmail);
+            return View(patient);
+        }
+
         [HttpGet("patient/{id}")]
         public IActionResult Home(Guid id)
         {

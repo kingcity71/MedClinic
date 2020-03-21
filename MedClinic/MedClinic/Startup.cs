@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using MedClinic.Interfaces;
 using MedClinic.Services;
 using MedClinic.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MedClinic
 {
@@ -26,6 +27,12 @@ namespace MedClinic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddDbContext<MedClinicContext>();
             services.AddScoped<IPatientService, PatientService>();
@@ -50,6 +57,7 @@ namespace MedClinic
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
