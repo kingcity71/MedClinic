@@ -19,14 +19,16 @@ namespace MedClinic.Controllers
     {
         private readonly MedClinicContext db;
         private readonly IPatientService patientService;
+        private readonly IDoctorService doctorService;
 
-        public AccountController(MedClinicContext context, IPatientService patientService)
+        public AccountController(MedClinicContext context, IPatientService patientService, IDoctorService doctorService)
         {
-            this.db = context;
+            db = context;
             this.patientService = patientService;
+            this.doctorService = doctorService;
         }
 
-        
+
         public IActionResult Login()
         {
             return View();
@@ -45,7 +47,7 @@ namespace MedClinic.Controllers
                     return RedirectToAction("Home", "Patient");
                 }
                 var doctor = await db.Doctors.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (patient != null)
+                if (doctor != null)
                 {
                     await Authenticate(model.Email); // аутентификация
                     return RedirectToAction("Home", "Doctor");
@@ -55,7 +57,7 @@ namespace MedClinic.Controllers
             }
             return View(model);
         }
-        
+
         public IActionResult Register()
         {
             return View();
@@ -66,24 +68,44 @@ namespace MedClinic.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await db.Patients.FirstOrDefaultAsync(u => u.Email == model.Email);
-                if (user == null)
+                if (model.IsDoctor)
                 {
-                    patientService.CreatePatient(new PatientModel()
+                    var user = await db.Doctors.FirstOrDefaultAsync(u => u.Email == model.Email);
+                    if (user == null)
                     {
-                        FullName = model.FullName,
-                        Email = model.Email,
-                        BirthDate = model.BirthDate,
-                        Password = model.Password
-                    });
-                   
+                        doctorService.CreateDoctor(new DoctorModel()
+                        {
+                            FullName = model.FullName,
+                            Email = model.Email,
+                            BirthDate = model.BirthDate,
+                            Password = model.Password
+                        });
 
-                    await Authenticate(model.Email); // аутентификация
 
-                    return RedirectToAction("Index", "Home");
+                        await Authenticate(model.Email); // аутентификация
+
+                        return RedirectToAction("Home", "Doctor");
+                    }
                 }
                 else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                {
+                    var user = await db.Patients.FirstOrDefaultAsync(u => u.Email == model.Email);
+                    if (user == null)
+                    {
+                        patientService.CreatePatient(new PatientModel()
+                        {
+                            FullName = model.FullName,
+                            Email = model.Email,
+                            BirthDate = model.BirthDate,
+                            Password = model.Password
+                        });
+
+                        await Authenticate(model.Email); // аутентификация
+
+                        return RedirectToAction("Home", "Patient");
+                    }
+                }
+                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
         }

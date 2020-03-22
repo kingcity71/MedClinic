@@ -14,16 +14,21 @@ namespace MedClinic.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IPatientService patientService;
+        private readonly IDoctorService doctorService;
 
-        public HomeController(ILogger<HomeController> logger, IPatientService patientService)
+        public HomeController(ILogger<HomeController> logger, IPatientService patientService, IDoctorService doctorService)
         {
             _logger = logger;
             this.patientService = patientService;
+            this.doctorService = doctorService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var currentUser = User.Identity.Name;
+            if(patientService.GetPatient(currentUser)!=null) return RedirectToAction("Home", "Patient");
+            if (doctorService.GetDoctor(currentUser) != null) return RedirectToAction("Home", "Doctor");
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult Privacy()

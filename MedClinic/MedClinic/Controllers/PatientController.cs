@@ -1,5 +1,6 @@
 ﻿using System;
 using MedClinic.Interfaces;
+using MedClinic.Model;
 using MedClinic.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,19 @@ namespace MedClinic.Controllers
             var patient = patienService.GetPatient(id);
             return View(patient);
         }
+        [HttpGet("patient/edit")]
+        public IActionResult Edit()
+        {
+            var patientEmail = User.Identity.Name;
+            var patient = patienService.GetPatient(patientEmail);
+            return View(patient);
+        }
+        [HttpPost]
+        public IActionResult Edit(PatientModel patient)
+        {
+            return View(patient);
+        }
+
 
         [HttpGet("patientData/{patientId}")]
         public IActionResult PatientData(Guid patientId)

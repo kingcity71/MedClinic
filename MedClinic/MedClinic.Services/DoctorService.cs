@@ -14,14 +14,23 @@ namespace MedClinic.Services
         {
             this.context = context;
         }
-        public void CreateDoctor(DoctorModel patientModel)
+        public void CreateDoctor(DoctorModel doctorModel)
         {
-            throw new NotImplementedException();
+            var doctor = MapDoctorModel(doctorModel);
+            context.Doctors.Add(doctor);
+            context.SaveChanges();
         }
 
         public DoctorModel GetDoctor(Guid id)
         {
             var doctor = context.Doctors.FirstOrDefault(x => x.Id == id);
+            var doctorModel = MapDoctorModel(doctor);
+            return doctorModel;
+        }
+
+        public DoctorModel GetDoctor(string email)
+        {
+            var doctor = context.Doctors.FirstOrDefault(x => x.Email == email);
             var doctorModel = MapDoctorModel(doctor);
             return doctorModel;
         }
@@ -38,6 +47,14 @@ namespace MedClinic.Services
             doctorModel.Specialization = context.Specializations
                 .FirstOrDefault(x => x.Id == doctor.SpecializationId)?.Name;
             return doctorModel;
+        }
+
+        Doctor MapDoctorModel(DoctorModel doctorModel)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<DoctorModel, Doctor>());
+            var mapper = new Mapper(config);
+            var doctor = mapper.Map<Doctor>(doctorModel);
+            return doctor;
         }
     }
 }

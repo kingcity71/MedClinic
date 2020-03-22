@@ -7,6 +7,7 @@ namespace MedClinic.Interfaces
     {
         void CreateDoctor(DoctorModel patientModel);
         DoctorModel GetDoctor(Guid id);
+        DoctorModel GetDoctor(string email);
         void UpdateDoctor(DoctorModel patientModel);
     }
 }

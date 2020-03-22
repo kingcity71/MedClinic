@@ -5,6 +5,7 @@ namespace MedClinic.Models
 {
     public class RegisterModel
     {
+        public bool IsDoctor { get; set; }
         [Required(ErrorMessage = "Не указано ФИО")]
         public string FullName { get; set; }
 
