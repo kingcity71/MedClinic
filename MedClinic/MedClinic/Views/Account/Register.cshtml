@@ -1,41 +1,29 @@
 ﻿@model MedClinic.Models.RegisterModel
-
-<h2>Регистрация</h2>
-
+<style>
+    .centerr {
+        margin: 0 auto;
+        width: 70%;
+    }
+</style>
 <form asp-action="Register" asp-controller="Account" asp-anti-forgery="true" autocomplete="off">
     <div class="validation" asp-validation-summary="ModelOnly" />
-    <div>
-        <div>
-            <label asp-for="FullName">Введите ФИО</label><br />
-            <input type="text" asp-for="FullName" />
-            <span asp-validation-for="FullName" />
+    <div class="centerr container">
+        <h2>Регистрация</h2>
+        @Html.Partial("../shared/textbox", ("FullName", "Введите Email", @Model?.FullName, true, "text"))
+        @Html.Partial("../shared/textbox", ("Email", "Введите ФИО", @Model?.Email, true, "text"))
+        @Html.Partial("../shared/datePickerBox", ("BirthDate", "Введите дату рождения", @Model == null ? DateTime.MinValue : @Model.BirthDate))
+        @Html.Partial("../shared/textbox", ("Password", "Введите пароль", @Model?.Password, true, "password"))
+        @Html.Partial("../shared/textbox", ("ConfirmPassword", "Подтвердите пароль", @Model?.ConfirmPassword, true, "password"))
+
+        <div class="p-1">
+            <div class="form-check">
+                <input type="checkbox" asp-for="IsDoctor" class="form-check-input" id="IsDoctorId">
+                <label class="form-check-label" for="IsDoctorId">Я Доктор</label>
+            </div>
         </div>
-        <div>
-            <label asp-for="BirthDate">Введите дату рождения</label><br />
-            <input type="text" asp-for="BirthDate" />
-            <span asp-validation-for="BirthDate" />
+        <div class="form-group">
+            <input type="submit" value="Регистрация" class="btn btn-outline-dark" />
         </div>
-        <div>
-            <label asp-for="Email">Введите Email</label><br />
-            <input type="text" asp-for="Email" />
-            <span asp-validation-for="Email" />
-        </div>
-        <div>
-            <label asp-for="Password">Введите пароль</label><br />
-            <input asp-for="Password" />
-            <span asp-validation-for="Password" />
-        </div>
-        <div>
-            <label asp-for="ConfirmPassword">Повторите пароль</label><br />
-            <input asp-for="ConfirmPassword" />
-            <span asp-validation-for="ConfirmPassword" />
-        </div>
-        <div>
-            <input asp-for="IsDoctor" />
-            <label asp-for="IsDoctor">Я Доктор</label>
-        </div>
-        <div>
-            <input type="submit" value="Регистрация" />
-        </div>
+
     </div>
 </form>

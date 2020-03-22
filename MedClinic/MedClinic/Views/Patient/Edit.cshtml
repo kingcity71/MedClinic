@@ -59,9 +59,9 @@
                         @Html.HiddenFor(m => m.Id)
                         @Html.HiddenFor(m => m.Photo)
                         @Html.HiddenFor(m => m.Email)
-                        @Html.Partial("../shared/textbox", ("FullName", "ФИО", @Model.FullName))
-                        @Html.Partial("../shared/textbox", ("MedData", "Данные страхового полиса", @Model.MedData))
-                        @Html.Partial("../shared/textbox", ("PassData", "Паспортные данные", @Model.PassData))
+                        @Html.Partial("../shared/textbox", ("FullName", "ФИО", @Model.FullName, true, "text"))
+                        @Html.Partial("../shared/textbox", ("MedData", "Данные страхового полиса", @Model.MedData, true, "text"))
+                        @Html.Partial("../shared/textbox", ("PassData", "Паспортные данные", @Model.PassData, true, "text"))
 
                         <div class="p-1">
                             <div class="form-check form-check-inline">

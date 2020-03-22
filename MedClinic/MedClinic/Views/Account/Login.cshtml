@@ -1,22 +1,17 @@
 ﻿@model MedClinic.Models.LoginModel
 
-<h2>Вход на сайт</h2>
-
-<a asp-action="Register" asp-controller="Account">Регистрация</a>
-
+<style>
+    .centerr {
+        margin: 0 auto;
+        width: 70%;
+    }
+</style>
 <form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
     <div class="validation" asp-validation-summary="ModelOnly" />
-    <div>
-        <div class="form-group">
-            <label asp-for="Email">Введите Email</label>
-            <input type="text" asp-for="Email" />
-            <span asp-validation-for="Email" />
-        </div>
-        <div class="form-group">
-            <label asp-for="Password">Введите пароль</label>
-            <input asp-for="Password" />
-            <span asp-validation-for="Password" />
-        </div>
+    <div class="centerr container">
+        <h2 class="text-center">Вход на сайт</h2>
+        @Html.Partial("../shared/textbox", ("Email", "Введите Email", @Model?.Email, true, "text"))
+        @Html.Partial("../shared/textbox", ("Password", "Введите пароль", @Model?.Password, true, "password"))
         <div class="form-group">
             <input type="submit" value="Войти" class="btn btn-outline-dark" />
         </div>

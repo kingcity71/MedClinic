@@ -63,20 +63,19 @@ namespace MedClinic.Controllers
         [HttpPost]
         public IActionResult Edit (DoctorEditModel editModel)
         {
-            editModel.Specializations = doctorService.GetSpecializations()
-                .Select(x => new SelectListItem()
-                {
-                    Text = x.Key,
-                    Value = x.Value.ToString(),
-                    Selected = x.Value.ToString() == editModel.SpecializationId.ToString()
-                });
-            return View(editModel);
             if (ModelState.IsValid)
             {
                 var doctorModel = MapPatientModel(editModel);
                 doctorService.UpdateDoctor(doctorModel);
                 return RedirectToAction("Home");
             }
+            editModel.Specializations = doctorService.GetSpecializations()
+                   .Select(x => new SelectListItem()
+                   {
+                       Text = x.Key,
+                       Value = x.Value.ToString(),
+                       Selected = x.Value.ToString() == editModel.SpecializationId.ToString()
+                   });
             return View(editModel);
         }
 

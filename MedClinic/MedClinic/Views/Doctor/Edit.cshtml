@@ -42,8 +42,8 @@
                         @Html.HiddenFor(m => m.Photo)
                         @Html.HiddenFor(m => m.Email)
 
-                        @Html.Partial("../shared/textbox", ("FullName", "ФИО", @Model.FullName))
-                        @Html.Partial("../shared/textbox", ("Education", "Образование", @Model.Education))
+                        @Html.Partial("../shared/textbox", ("FullName", "ФИО", @Model.FullName,true, "text"))
+                        @Html.Partial("../shared/textbox", ("Education", "Образование", @Model.Education,true, "text"))
                         @Html.Partial("../shared/datePickerBox", ("HireDate", "Дата начала карьеры", @Model.HireDate))
 
                         <div class="form-group row p-1">

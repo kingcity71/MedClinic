@@ -44,9 +44,19 @@ namespace MedClinic.Services
             return dic;
         }
 
-        public void UpdateDoctor(DoctorModel patientModel)
+        public void UpdateDoctor(DoctorModel doctorModel)
         {
-            throw new NotImplementedException();
+            var doctor = context.Doctors.FirstOrDefault(x => x.Id == doctorModel.Id);
+            if (doctor == null) return;
+            doctor.FullName = doctorModel.FullName;
+            doctor.Education = doctorModel.Education;
+            doctor.HireDate = doctorModel.HireDate;
+            doctor.Photo = doctorModel.Photo == null && doctor.Photo != null
+                ? doctor.Photo : doctorModel.Photo;
+            doctor.SpecializationId = doctorModel.SpecializationId;
+
+            context.Doctors.Update(doctor);
+            context.SaveChanges();
         }
         DoctorModel MapDoctorModel(Doctor doctor)
         {

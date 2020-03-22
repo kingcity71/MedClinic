@@ -6,10 +6,10 @@ namespace MedClinic.Interfaces
 {
     public interface IDoctorService
     {
-        void CreateDoctor(DoctorModel patientModel);
+        void CreateDoctor(DoctorModel doctorModel);
         DoctorModel GetDoctor(Guid id);
         DoctorModel GetDoctor(string email);
         Dictionary<string, Guid> GetSpecializations();
-        void UpdateDoctor(DoctorModel patientModel);
+        void UpdateDoctor(DoctorModel doctorModel);
     }
 }
