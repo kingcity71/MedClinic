@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MedClinic.Model;
 
 namespace MedClinic.Interfaces
@@ -8,6 +9,7 @@ namespace MedClinic.Interfaces
         void CreateDoctor(DoctorModel patientModel);
         DoctorModel GetDoctor(Guid id);
         DoctorModel GetDoctor(string email);
+        Dictionary<string, Guid> GetSpecializations();
         void UpdateDoctor(DoctorModel patientModel);
     }
 }

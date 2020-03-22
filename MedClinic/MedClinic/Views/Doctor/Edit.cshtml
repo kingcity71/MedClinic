@@ -1,0 +1,119 @@
+﻿@model MedClinic.Models.DoctorEditModel
+
+@{
+    ViewData["Title"] = "Home";
+    var isOwner = User.Identity.Name == Model.Email;
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="row">
+                @if (string.IsNullOrEmpty(Model.Photo))
+                {
+                    @Html.Partial("../Shared/NoPhotoView");
+                }
+                else
+                {
+                    <img src="@Model.Photo" class="img-thumbnail" />
+                }
+            </div>
+            <div class="row">
+                <div class="col-lg-12 p-1">
+                    <a href="\doctor\">
+                        <button type="button" class="btn btn-outline-primary w-100">
+                            Профиль
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-12 p-1">
+                    <a href="\doctor\edit">
+                        <button type="button" class="btn btn-primary w-100">
+                            Редактировать
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-12 profile-wrapper">
+                    <form asp-action="Edit" asp-controller="Doctor" autocomplete="off" method="post" enctype="multipart/form-data">
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.Photo)
+                        @Html.HiddenFor(m => m.Email)
+
+                        @Html.Partial("../shared/textbox", ("FullName", "ФИО", @Model.FullName))
+                        @Html.Partial("../shared/textbox", ("Education", "Образование", @Model.Education))
+                        @Html.Partial("../shared/datePickerBox", ("HireDate", "Дата начала карьеры", @Model.HireDate))
+
+                        <div class="form-group row p-1">
+                            <label class="col-sm-3 col-form-label">Специализация</label>
+                            <div class="col-sm-9">
+                                @Html.DropDownListFor(m => m.SpecializationId,
+                                    Model.Specializations,
+                                    "Выберите из списка", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+
+                        <div class="p-1">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" asp-for="PhotoFile">
+                                <label class="custom-file-label" asp-for="PhotoFile">Загрузка фото</label>
+                            </div>
+                        </div>
+
+                        <div class="row p-1">
+                            <div class="col align-self-end">
+                                <input type="submit" value="Подтвердить" class="btn btn-outline-success" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="row">
+    <div class="col-md-4">
+        <form asp-action="View">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpecializationId" class="control-label"></label>
+                <input asp-for="SpecializationId" class="form-control" />
+                <span asp-validation-for="SpecializationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HireDate" class="control-label"></label>
+                <input asp-for="HireDate" class="form-control" />
+                <span asp-validation-for="HireDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Education" class="control-label"></label>
+                <input asp-for="Education" class="form-control" />
+                <span asp-validation-for="Education" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <input asp-for="Photo" class="form-control" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>*@
+

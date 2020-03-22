@@ -1,0 +1,16 @@
+﻿@model (string, string, DateTime)
+<div class="form-group row p-1">
+    <label name="@Model.Item1" class="col-sm-3 col-form-label">@Model.Item2</label>
+    <div class="col-sm-9">
+        <input name="@Model.Item1" id="datepicker"  width="276" 
+               value="@(Model.Item3==DateTime.MinValue?string.Empty:Model.Item3.ToString("dd.MM.yyyy"))">
+    </div>
+</div>
+
+<script>
+    $('#datepicker').datepicker({
+        uiLibrary: 'bootstrap4',
+        format: 'dd.mm.yyyy',
+        showRightIcon:false
+    });
+</script>

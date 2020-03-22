@@ -58,6 +58,7 @@
                     <form asp-action="Edit" asp-controller="Patient" autocomplete="off" method="post" enctype="multipart/form-data">
                         @Html.HiddenFor(m => m.Id)
                         @Html.HiddenFor(m => m.Photo)
+                        @Html.HiddenFor(m => m.Email)
                         @Html.Partial("../shared/textbox", ("FullName", "ФИО", @Model.FullName))
                         @Html.Partial("../shared/textbox", ("MedData", "Данные страхового полиса", @Model.MedData))
                         @Html.Partial("../shared/textbox", ("PassData", "Паспортные данные", @Model.PassData))
@@ -76,10 +77,11 @@
                                 <label for="Sex" class="form-check-label">Женщина</label>
                             </div>
                         </div>
+                 
                         <div class="p-1">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" for="PhotoFile">
-                                <label class="custom-file-label" for="PhotoFile">Загрузка фото</label>
+                                <input type="file" class="custom-file-input" asp-for="PhotoFile">
+                                <label class="custom-file-label" asp-for="PhotoFile">Загрузка фото</label>
                             </div>
                         </div>
 

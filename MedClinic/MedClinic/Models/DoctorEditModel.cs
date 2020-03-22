@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace MedClinic.Models
 {
-    public class PatientEditModel
+    public class DoctorEditModel
     {
         public Guid Id { get; set; }
-       
-        public string Email { get; set; }
         [Required]
         public string FullName { get; set; }
+        public string Email { get; set; }
         [Required]
-        public bool? Sex { get; set; }
+        public Guid? SpecializationId { get; set; }
+        public IEnumerable<SelectListItem> Specializations { get; set; }
 
         [Required]
-        public string MedData { get; set; }
+        public DateTime HireDate { get; set; }
         [Required]
-        public string PassData { get; set; }
+        public string Education { get; set; }
         public string Photo { get; set; }
         public IFormFile PhotoFile { get; set; }
     }

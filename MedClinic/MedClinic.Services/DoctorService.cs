@@ -4,6 +4,7 @@ using MedClinic.Entity;
 using MedClinic.Interfaces;
 using MedClinic.Model;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 namespace MedClinic.Services
 {
@@ -33,6 +34,14 @@ namespace MedClinic.Services
             var doctor = context.Doctors.FirstOrDefault(x => x.Email == email);
             var doctorModel = MapDoctorModel(doctor);
             return doctorModel;
+        }
+
+        public Dictionary<string, Guid> GetSpecializations()
+        {
+            var dic = new Dictionary<string, Guid>();
+            foreach (var spec in context.Specializations)
+                dic.Add(spec.Name, spec.Id);
+            return dic;
         }
 
         public void UpdateDoctor(DoctorModel patientModel)
