@@ -41,6 +41,7 @@ namespace MedClinic.Services
         }
         DoctorModel MapDoctorModel(Doctor doctor)
         {
+            if (doctor == null) return null;
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Doctor, DoctorModel>());
             var mapper = new Mapper(config);
             var doctorModel = mapper.Map<DoctorModel>(doctor);

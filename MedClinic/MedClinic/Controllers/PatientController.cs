@@ -1,7 +1,11 @@
 ﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using AutoMapper;
 using MedClinic.Interfaces;
 using MedClinic.Model;
 using MedClinic.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedClinic.Controllers
@@ -34,12 +38,31 @@ namespace MedClinic.Controllers
         {
             var patientEmail = User.Identity.Name;
             var patient = patienService.GetPatient(patientEmail);
-            return View(patient);
+            var patientEditModel = new PatientEditModel()
+            {
+                Id = patient.Id,
+                Photo = patient.Photo,
+                Email = patient.Email,
+                FullName = patient.FullName,
+                MedData = patient.MedData,
+                PassData = patient.PassData,
+                Sex = patient.IsMan==true
+            };
+            return View(patientEditModel);
         }
+       
         [HttpPost]
-        public IActionResult Edit(PatientModel patient)
+        public IActionResult Edit(PatientEditModel patientEditModel)
         {
-            return View(patient);
+            return View(patientEditModel);
+            if (ModelState.IsValid)
+            {
+                var patientModel = MapPatientModel(patientEditModel);
+                patienService.UpdatePatient(patientModel);
+                return RedirectToAction("Home", "Patient");
+            }
+            else
+                return View(patientEditModel);
         }
 
 
@@ -59,6 +82,26 @@ namespace MedClinic.Controllers
             var conclusions = patienService.GetConclusions(patientId);
             var patientConclusionsViewModel = new PatientConclusionsViewModel() { Patient = patient, Conslusions = conclusions};
             return View(patientConclusionsViewModel);
+        }
+
+        private PatientModel MapPatientModel(PatientEditModel editModel)
+        {
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<PatientEditModel, PatientModel>());
+            var mapper = new Mapper(config);
+            var patientModel = mapper.Map<PatientModel>(editModel);
+            
+            if (editModel.PhotoFile != null)
+            {
+                byte[] imageData = null;
+                // считываем переданный файл в массив байтов
+                using (var binaryReader = new BinaryReader(editModel.PhotoFile.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)editModel.PhotoFile.Length);
+                }
+                patientModel.Photo = $"data:image/jpeg;base64, {Convert.ToBase64String(imageData)}";
+            }
+
+            return patientModel;
         }
     }
 }

@@ -9,7 +9,6 @@ namespace MedClinic.Model
         public string PassData { get; set; }
         public string MedData { get; set; }   
         public string Photo { get; set; }
-        public byte[] PhotoBytes { get; set; }
         public ModelState ModelState { get; set; }
     }
 }

@@ -75,7 +75,16 @@ namespace MedClinic.Services
 
         public void UpdatePatient(PatientModel patientModel)
         {
-            throw new NotImplementedException();
+            var patient = context.Patients.FirstOrDefault(x => x.Id == patientModel.Id);
+            if (patient == null) return;
+            patient.FullName = patientModel.FullName;
+            patient.MedData = patientModel.MedData;
+            patient.PassData = patientModel.PassData;
+            patient.Photo = patientModel.Photo==null && patient.Photo!=null
+                ? patient.Photo:patientModel.Photo;
+            patient.Sex = patientModel.IsMan==true;
+            context.Patients.Update(patient);
+            context.SaveChanges();
         }
 
         PatientModel MapPatientModel(Patient patient)

@@ -1,4 +1,4 @@
-﻿@model MedClinic.Model.PatientModel
+﻿@model MedClinic.Models.PatientEditModel
 @{
     ViewData["Title"] = "Home";
     var isOwner = User.Identity.Name == Model.Email;
@@ -19,14 +19,14 @@
             <div class="row">
                 <div class="col-lg-12 p-1">
                     <a href="\patient\">
-                        <button type="button" class="btn btn-primary w-100">
+                        <button type="button" class="btn btn-outline-primary w-100">
                             Профиль
                         </button>
                     </a>
                 </div>
                 <div class="col-lg-12 p-1">
                     <a href="\patient\edit">
-                        <button type="button" class="btn btn-outline-primary w-100">
+                        <button type="button" class="btn btn-primary w-100">
                             Редактировать
                         </button>
                     </a>
@@ -55,46 +55,38 @@
         <div class="col-lg-8">
             <div class="row">
                 <div class="col-lg-12 profile-wrapper">
+                    <form asp-action="Edit" asp-controller="Patient" autocomplete="off" method="post" enctype="multipart/form-data">
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.HiddenFor(m => m.Photo)
+                        @Html.Partial("../shared/textbox", ("FullName", "ФИО", @Model.FullName))
+                        @Html.Partial("../shared/textbox", ("MedData", "Данные страхового полиса", @Model.MedData))
+                        @Html.Partial("../shared/textbox", ("PassData", "Паспортные данные", @Model.PassData))
 
-                    <form asp-action="Edit" asp-controller="Patient" autocomplete="off" enctype="multipart/form-data">
-                        <div class="form-group row">
-                            <label asp-for="FullName" class="col-sm-2 col-form-label">ФИО</label>
-                            <div class="col-sm-10">
-                                <input type="text" asp-for="FullName" class="form-control-plaintext">
+                        <div class="p-1">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="Sex"
+                                       value="True"
+                                       @(Model.Sex != null && Model.Sex.Value == true ? "checked" : "")>
+                                <label for="Sex" class="form-check-label">Мужчина</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="Sex"
+                                       value="False"
+                                       @(Model.Sex != null && Model.Sex.Value == false ? "checked" : "")>
+                                <label for="Sex" class="form-check-label">Женщина</label>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label asp-for="MedData" class="col-sm-2 col-form-label">Данные страхового полиса</label>
-                            <div class="col-sm-10">
-                                <input type="text" asp-for="MedData" class="form-control-plaintext">
+                        <div class="p-1">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" for="PhotoFile">
+                                <label class="custom-file-label" for="PhotoFile">Загрузка фото</label>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label asp-for="PassData" class="col-sm-2 col-form-label">Паспортные данные</label>
-                            <div class="col-sm-10">
-                                <input type="text" asp-for="PassData" class="form-control-plaintext">
+
+                        <div class="row p-1">
+                            <div class="col align-self-end">
+                                <input type="submit" value="Подтвердить" class="btn btn-outline-success" />
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            <label asp-for="IsMan" class="col-sm-2 col-form-label">Мужчина</label>
-                            <div class="col-sm-10">
-                                <input asp-for="IsMan" class="form-control-plaintext">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label asp-for="IsWoman" class="col-sm-2 col-form-label">Женщина</label>
-                            <div class="col-sm-10">
-                                <input asp-for="IsWoman" class="form-control-plaintext">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label asp-for="PhotoBytes" class="col-sm-2 col-form-label">Загрузка фото</label>
-                            <div class="col-sm-10">
-                                <input asp-for="PhotoBytes" type="file">
-                            </div>
-                        </div>
-                        <div>
-                            <input type="submit" value="Подтвердить" class="btn-outline-success" />
                         </div>
                     </form>
                 </div>
