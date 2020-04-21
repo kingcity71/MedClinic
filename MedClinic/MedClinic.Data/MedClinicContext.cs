@@ -138,6 +138,7 @@ namespace MedClinic.Data
             optionsBuilder.UseSqlServer(@"Server=.\sqlexpress;Database=MedClinic;" +
                 "Trusted_Connection=True;");
         }
+        
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Specialization> Specializations { get; set; }

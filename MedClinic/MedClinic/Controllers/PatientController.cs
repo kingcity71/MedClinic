@@ -13,12 +13,37 @@ namespace MedClinic.Controllers
     public class PatientController : Controller
     {
         private readonly IPatientService patienService;
+        private readonly ICommonSerivce commonSerivce;
 
-        public PatientController(IPatientService patienService)
+        public PatientController(IPatientService patienService, ICommonSerivce commonSerivce)
         {
             this.patienService = patienService;
+            this.commonSerivce = commonSerivce;
         }
         
+        [HttpGet("/patient/schedule/")]
+        public IActionResult Schedule()
+        {
+            var viewModel = new ScheduleViewModel()
+            {
+                Date = DateTime.Today,
+                CalendarMatrix = commonSerivce.GetCalendarMatrix(DateTime.Today)
+            };
+            return View(viewModel);
+        }
+
+        [HttpGet("/patient/schedule/{month}/{year}")]
+        public IActionResult Schedule(int month, int year)
+        {
+            var viewModel = new ScheduleViewModel()
+            {
+                Date = new DateTime(year, month, 1),
+                CalendarMatrix = commonSerivce.GetCalendarMatrix(new DateTime(year, month, 1))
+            };
+            return View(viewModel);
+        }
+
+
         [HttpGet("patient/")]
         public IActionResult Home()
         {
@@ -64,8 +89,7 @@ namespace MedClinic.Controllers
             else
                 return View(patientEditModel);
         }
-
-
+        
         [HttpGet("patientData/{patientId}")]
         public IActionResult PatientData(Guid patientId)
         {
@@ -83,7 +107,6 @@ namespace MedClinic.Controllers
             var patientConclusionsViewModel = new PatientConclusionsViewModel() { Patient = patient, Conslusions = conclusions};
             return View(patientConclusionsViewModel);
         }
-
         private PatientModel MapPatientModel(PatientEditModel editModel)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<PatientEditModel, PatientModel>());
@@ -103,5 +126,8 @@ namespace MedClinic.Controllers
 
             return patientModel;
         }
+    
+    
+    
     }
 }

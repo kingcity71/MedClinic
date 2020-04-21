@@ -37,6 +37,7 @@ namespace MedClinic
             services.AddDbContext<MedClinicContext>();
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<ICommonSerivce, CommonService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Schedule";
+}
+
+<h1>Schedule</h1>
+
+<style>
+    .calendar-cell {
+        border: 1px solid gray;
+        border-radius: 3px;
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    @for (var j = 0; j < 6; j++)
+    {
+        <div class="row">
+            @for (var i = 0; i < 7; i++)
+            {
+                <div class="col-lg-1 m-1 calendar-cell">
+                    @i
+                </div>
+            }
+        </div>
+    }
+</div>

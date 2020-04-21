@@ -15,6 +15,7 @@ namespace MedClinic.Services
         {
             this.context = context;
         }
+        
         public void CreateDoctor(DoctorModel doctorModel)
         {
             var doctor = MapDoctorModel(doctorModel);
@@ -58,6 +59,7 @@ namespace MedClinic.Services
             context.Doctors.Update(doctor);
             context.SaveChanges();
         }
+        
         DoctorModel MapDoctorModel(Doctor doctor)
         {
             if (doctor == null) return null;
@@ -68,7 +70,6 @@ namespace MedClinic.Services
                 .FirstOrDefault(x => x.Id == doctor.SpecializationId)?.Name;
             return doctorModel;
         }
-
         Doctor MapDoctorModel(DoctorModel doctorModel)
         {
             var config = new MapperConfiguration(cfg => cfg.CreateMap<DoctorModel, Doctor>());

@@ -1,0 +1,91 @@
+﻿@model MedClinic.Models.ScheduleViewModel
+@{
+    ViewData["Title"] = "Schedule";
+    var dayOfWeek = new[] { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вск" };
+    var months = new[] { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", 
+        "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
+
+    var prevDate = Model.Date.AddMonths(-1);
+    var nextDate = Model.Date.AddMonths(+1);
+}
+
+<h1>Расписание : @months[Model.Date.Month-1], @Model.Date.Year</h1>
+
+<style>
+    .calendar-cell {
+        border: 1px solid gray;
+        border-radius: 3px;
+        font-size: 23px;
+    }
+
+    .calendar-cell-disabled {
+        background: lightgray;
+        color: dimgrey;
+    }
+
+        .calendar-cell-disabled:hover {
+            cursor: not-allowed;
+        }
+
+    .calendar-cell-active:hover {
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .btn:hover {
+        cursor: pointer;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class=" col-lg-2 p-1" onclick="redirect('/patient/Schedule/@(prevDate.Month)/@(prevDate.Year)')">
+            <div class="btn btn-primary w-100">Пред. месяц</div>
+        </div>
+        <div class="col-lg-2 p-1"><h3>Специалист</h3></div>
+        <select class="form-control col-lg-4 p-1">
+        </select>
+
+
+        <div class=" col-lg-2 p-1">
+            <div class="btn btn-success w-100">Найти</div>
+        </div>
+
+        <div class=" col-lg-2 p-1">
+            <div class="btn btn-primary w-100" onclick="redirect('/patient/Schedule/@(nextDate.Month)/@(nextDate.Year)')">След. месяц</div>
+        </div>
+
+    </div>
+    <div class="row">
+        @foreach (var day in dayOfWeek)
+        {
+            <div class="col-lg m-1 text-center">
+                @day
+            </div>
+        }
+    </div>
+    
+    @for (var i = 0; i < Model.CalendarMatrix.GetLength(0); i++)
+    {
+        <div class="row">
+            @for (var j = 0; j < Model.CalendarMatrix[i].GetLength(0); j++)
+            {
+                @if (Model.CalendarMatrix[i][j] != 0)
+                {
+                    <div class="col-lg m-1 text-center calendar-cell calendar-cell-active">
+                        @Model.CalendarMatrix[i][j]
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg m-1 text-center calendar-cell calendar-cell-disabled">
+                        X
+                    </div>
+                }
+            }
+        </div>
+    }
+</div>
+<script>
+
+</script>
