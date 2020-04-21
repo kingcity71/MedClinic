@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using MedClinic.Interfaces;
@@ -14,35 +15,61 @@ namespace MedClinic.Controllers
     {
         private readonly IPatientService patienService;
         private readonly ICommonSerivce commonSerivce;
+        private readonly IDoctorService doctorService;
+        private readonly IScheduleService scheduleService;
 
-        public PatientController(IPatientService patienService, ICommonSerivce commonSerivce)
+        public PatientController(IPatientService patienService, 
+            ICommonSerivce commonSerivce, 
+            IDoctorService doctorService,
+            IScheduleService scheduleService)
         {
             this.patienService = patienService;
             this.commonSerivce = commonSerivce;
+            this.doctorService = doctorService;
+            this.scheduleService = scheduleService;
         }
         
-        [HttpGet("/patient/schedule/")]
+        [HttpGet("patient/schedule/")]
         public IActionResult Schedule()
         {
+            var specializations = doctorService.GetSpecializations();
             var viewModel = new ScheduleViewModel()
             {
                 Date = DateTime.Today,
-                CalendarMatrix = commonSerivce.GetCalendarMatrix(DateTime.Today)
+                CalendarMatrix = commonSerivce.GetCalendarMatrix(DateTime.Today),
+                Specializations = specializations,
+                SpecializationId = specializations.First().Value
             };
             return View(viewModel);
         }
 
-        [HttpGet("/patient/schedule/{month}/{year}")]
-        public IActionResult Schedule(int month, int year)
+        [HttpGet("patient/schedule/{month}/{year}/{specializationId}")]
+        public IActionResult Schedule(int month, int year, Guid specializationId)
         {
             var viewModel = new ScheduleViewModel()
             {
                 Date = new DateTime(year, month, 1),
-                CalendarMatrix = commonSerivce.GetCalendarMatrix(new DateTime(year, month, 1))
+                CalendarMatrix = commonSerivce.GetCalendarMatrix(new DateTime(year, month, 1)),
+                Specializations = doctorService.GetSpecializations(),
+                SpecializationId = specializationId
             };
             return View(viewModel);
         }
 
+        [HttpGet("patient/ScheduleDate/{year}/{month}/{day}/{specializationId}")]
+        public IActionResult ScheduleDate(int year, int month, int day, Guid specializationId)
+        {
+            var date = new DateTime(year, month, day);
+            var daySched = scheduleService.GetDaySchedule(date, specializationId);
+            var model = new ScheduleDayViewModel()
+            {
+                ScheduleDay = daySched,
+                Date = date,
+                SpecialiazationId = specializationId,
+                Specialiazation = commonSerivce.GetSpecialization(specializationId).Name
+            };
+            return View(model);
+        }
 
         [HttpGet("patient/")]
         public IActionResult Home()
@@ -126,8 +153,5 @@ namespace MedClinic.Controllers
 
             return patientModel;
         }
-    
-    
-    
     }
 }

@@ -9,6 +9,7 @@ namespace MedClinic.Models
     {
         public DateTime Date { get; set; }
         public int[][] CalendarMatrix { get; set; }
-        public Dictionary<string,string> Specializations { get; set; }
+        public Dictionary<string,Guid> Specializations { get; set; }
+        public Guid SpecializationId { get; set; }
     }
 }

@@ -1,0 +1,41 @@
+﻿@model MedClinic.Models.ScheduleDayViewModel
+@{
+    ViewData["Title"] = "ScheduleDate";
+}
+<style>
+    .time-line {
+        border: 1px solid gray;
+        border-radius: 3px;
+    }
+
+    .unavailable {
+        background: lightgray;
+        color: dimgrey;
+    }
+
+        .unavailable:hover {
+            cursor: not-allowed;
+        }
+
+    .available {
+        background-color: lightgreen;
+    }
+
+        .available:hover {
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+</style>
+<h1>@Model.Specialiazation : Запись на @($"{@Model.Date.Day}.{@Model.Date.Month }.{@Model.Date.Year}")</h1>
+<div class="container">
+    @for (var i = 10; i < 18; i++)
+    {
+        <div class="row time-line m-1 @(Model.ScheduleDay.Any(x=>x.Date.Hour==i && x.Status=="Открыт")?"available":"unavailable")">
+            <h3>
+                Время @i:00 @(Model.ScheduleDay.Any(x => x.Date.Hour == i && x.Status == "Открыт") ?
+"(Перейти к записи к специалисту)" :
+"(Нет доступных специалистов)")
+            </h3>
+        </div>
+    }
+</div>

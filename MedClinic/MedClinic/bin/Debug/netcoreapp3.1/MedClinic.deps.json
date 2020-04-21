@@ -2182,6 +2182,7 @@
       },
       "MedClinic.Interfaces/1.0.0": {
         "dependencies": {
+          "MedClinic.Entity": "1.0.0",
           "MedClinic.Model": "1.0.0"
         },
         "runtime": {

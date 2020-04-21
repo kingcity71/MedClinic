@@ -5,9 +5,8 @@ using System.Text;
 
 namespace MedClinic.Interfaces
 {
-    public interface ICommonSerivce
+    public interface IScheduleService
     {
-        int[][] GetCalendarMatrix(DateTime date);
-        Specialization GetSpecialization(Guid id);
+        List<Schedule> GetDaySchedule(DateTime date, Guid specializationId);
     }
 }

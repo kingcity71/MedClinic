@@ -1,4 +1,6 @@
-﻿using MedClinic.Interfaces;
+﻿using MedClinic.Data;
+using MedClinic.Entity;
+using MedClinic.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +10,16 @@ namespace MedClinic.Services
 {
     public class CommonService : ICommonSerivce
     {
+        private readonly MedClinicContext context;
+
+        public CommonService(MedClinicContext context)
+        {
+            this.context = context;
+        }
+        public Specialization GetSpecialization(Guid id)
+        {
+            return context.Specializations.FirstOrDefault(x => x.Id == id);
+        }
         public int[][] GetCalendarMatrix(DateTime date)
         {
             var dayOfWeek = (int)new DateTime(date.Year, date.Month, 1).DayOfWeek;

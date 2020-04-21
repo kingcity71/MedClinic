@@ -9,3 +9,5 @@ D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\obj\Debug\netcoreapp3.1\MedCli
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\obj\Debug\netcoreapp3.1\MedClinic.Interfaces.csproj.CopyComplete
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\obj\Debug\netcoreapp3.1\MedClinic.Interfaces.dll
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\obj\Debug\netcoreapp3.1\MedClinic.Interfaces.pdb
+D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Entity.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Entity.pdb
