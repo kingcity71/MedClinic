@@ -17,5 +17,6 @@ namespace MedClinic.Model
         public string Education { get; set; }
         public string Photo { get; set; }
         public ModelState ModelState { get; set; }
+        public string PlaceDefault { get; set; }
     }
 }

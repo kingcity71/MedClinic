@@ -22,6 +22,8 @@ namespace MedClinic.Models
         public DateTime HireDate { get; set; }
         [Required]
         public string Education { get; set; }
+        [Required]
+        public string PlaceDefault { get; set; }
         public string Photo { get; set; }
         public IFormFile PhotoFile { get; set; }
     }

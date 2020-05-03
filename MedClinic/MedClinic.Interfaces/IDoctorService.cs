@@ -11,5 +11,8 @@ namespace MedClinic.Interfaces
         DoctorModel GetDoctor(string email);
         Dictionary<string, Guid> GetSpecializations();
         void UpdateDoctor(DoctorModel doctorModel);
+
+        void OpenClosedSchedules(DateTime date, Guid doctorId);
+        void CloseOpenedSchedules(DateTime date, Guid doctorId);
     }
 }

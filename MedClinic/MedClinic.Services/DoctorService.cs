@@ -15,7 +15,19 @@ namespace MedClinic.Services
         {
             this.context = context;
         }
-        
+
+        public void CloseOpenedSchedules(DateTime date, Guid doctorId)
+        {
+            var scheds = context.Schedules
+                .Where(x => x.Date.Date == date.Date && x.DoctorId == doctorId)
+                .ToList();
+            foreach (var sched in scheds)
+                if (sched.Status == "Открыт")
+                    context.Schedules.Remove(sched);
+
+            context.SaveChanges();
+        }
+
         public void CreateDoctor(DoctorModel doctorModel)
         {
             var doctor = MapDoctorModel(doctorModel);
@@ -45,6 +57,27 @@ namespace MedClinic.Services
             return dic;
         }
 
+        public void OpenClosedSchedules(DateTime date, Guid doctorId)
+        {
+            var doctor = GetDoctor(doctorId);
+            var scheds = context.Schedules
+                .Where(x => x.Date.Date == date.Date && x.DoctorId == doctorId)
+                .ToList();
+
+            for (var i = 10; i < 18; i++)
+                if (!scheds.Any(x => x.Date.Hour == i))
+                    context.Schedules.Add(new Schedule()
+                    {
+                        Date = new DateTime(date.Year, date.Month, date.Day, i, 0, 0),
+                        Status = "Открыт",
+                        Place = doctor.PlaceDefault,
+                        DoctorId = doctorId,
+                        PatientId = Guid.Empty
+                    });
+
+            context.SaveChanges();
+        }
+
         public void UpdateDoctor(DoctorModel doctorModel)
         {
             var doctor = context.Doctors.FirstOrDefault(x => x.Id == doctorModel.Id);
@@ -59,7 +92,7 @@ namespace MedClinic.Services
             context.Doctors.Update(doctor);
             context.SaveChanges();
         }
-        
+
         DoctorModel MapDoctorModel(Doctor doctor)
         {
             if (doctor == null) return null;

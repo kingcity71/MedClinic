@@ -1,0 +1,91 @@
+﻿@model MedClinic.Models.ScheduleDayViewModel
+@{
+    ViewData["Title"] = "ScheduleDate";
+    var openUrl = $"/doctor/OpenClosedSchedules?year={Model.Date.Year}&month={Model.Date.Month}&day={Model.Date.Day}";
+    var closeUrl = $"/doctor/CloseOpenedSchedules?year={Model.Date.Year}&month={Model.Date.Month}&day={Model.Date.Day}";
+}
+<style>
+    .time-line {
+        border: 1px solid gray;
+        border-radius: 3px;
+    }
+
+    .unavailable {
+        background: lightgray;
+        color: dimgray;
+    }
+    .booked {
+        background: yellow;
+    }
+
+    .closed {
+        background: lightgreen;
+    }
+
+    .available {
+        background-color: white;
+    }
+
+        .available:hover,
+        .booked:hover,
+        .unavailable:hover,
+        .closed:hover {
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .btn:hover{
+            cursor: pointer;
+        }
+</style>
+
+<h1>Запись на @($"{@Model.Date.Day}.{@Model.Date.Month }.{@Model.Date.Year}")</h1>
+<div class="container">
+    <div class="row">
+        <div class="btn btn-success m-1" onclick="openClosedSchedules('@openUrl')">Открыть несозданные</div>
+        <div class="btn btn-danger m-1"  onclick="closeOpenedSchedules('@closeUrl')">Закрыть открытые</div>
+    </div>
+</div>
+<div class="container">
+    @for (var i = 10; i < 18; i++)
+    {
+        var sched = Model.ScheduleDay.FirstOrDefault(x => x.Date.Hour == i);
+
+        var status = string.Empty;
+        var state = string.Empty;
+
+        switch (sched?.Status)
+        {
+            case "Открыт":
+                state = "available";
+                status = "Запись открыта";
+                break;
+            case "Закрыт":
+                state = "closed";
+                status = "Запись закрыта";
+                break;
+            case "Запись":
+                state = "booked";
+                status = "Пациент записан";
+                break;
+            default:
+                state = "unavailable";
+                status = "Запись не создана";
+                break;
+        }
+
+        // var url = $"/patient/scheduleTime/{Model.Date.Year}/{Model.Date.Month}/{Model.Date.Day}/{i}/{Model.SpecialiazationId}";
+        <div class="row time-line m-1 @(state)" style="font-size:20px">
+            Время @i:00 @status
+        </div>
+    }
+</div>
+<script>
+    let openClosedSchedules = (url) => {
+        redirect(url);
+    }
+
+    let closeOpenedSchedules = (url) => {
+        redirect(url);
+    }
+</script>

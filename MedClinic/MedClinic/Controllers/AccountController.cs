@@ -43,13 +43,13 @@ namespace MedClinic.Controllers
                 var patient = await db.Patients.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (patient != null)
                 {
-                    await Authenticate(model.Email); // аутентификация
+                    await Authenticate(model.Email, "patient"); // аутентификация
                     return RedirectToAction("Home", "Patient");
                 }
                 var doctor = await db.Doctors.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (doctor != null)
                 {
-                    await Authenticate(model.Email); // аутентификация
+                    await Authenticate(model.Email, "doctor"); // аутентификация
                     return RedirectToAction("Home", "Doctor");
                 }
 
@@ -82,7 +82,7 @@ namespace MedClinic.Controllers
                         });
 
 
-                        await Authenticate(model.Email); // аутентификация
+                        await Authenticate(model.Email, "doctor"); // аутентификация
 
                         return RedirectToAction("Home", "Doctor");
                     }
@@ -100,7 +100,7 @@ namespace MedClinic.Controllers
                             Password = model.Password
                         });
 
-                        await Authenticate(model.Email); // аутентификация
+                        await Authenticate(model.Email,"patient"); // аутентификация
 
                         return RedirectToAction("Home", "Patient");
                     }
@@ -110,12 +110,13 @@ namespace MedClinic.Controllers
             return View(model);
         }
 
-        private async Task Authenticate(string userEmail)
+        private async Task Authenticate(string userEmail, string role)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                 new Claim(ClaimsIdentity.DefaultNameClaimType, userEmail)
+                 new Claim(ClaimsIdentity.DefaultNameClaimType, userEmail),
+                 new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

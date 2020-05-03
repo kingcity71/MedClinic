@@ -8,6 +8,7 @@ namespace MedClinic.Interfaces
 {
     public interface IScheduleService
     {
+        List<Schedule> GetDoctorDaySchedule(DateTime date, Guid doctorId);
         List<Schedule> GetDaySchedule(DateTime date, Guid specializationId);
         List<ScheduleTimeModel> GetTimeSchedule(DateTime dateTime, Guid specializationId);
         void MakeAppointment(Guid schedId, Guid patientId);

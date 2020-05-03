@@ -34,9 +34,6 @@
 <div class="container">
     @foreach (var sched in Model)
     {
-        //Guid id, string doctor, string spec, 
-            //int year, int month, int day, int hour,
-            //string place
         var url = $"/patient/Appointment?id={sched.ScheduleId}&doctor={sched.Doctor.FullName}&spec={sched.SpecializationName}&year={sched.DateTime.Year}&month={sched.DateTime.Month}&day={sched.DateTime.Day}&hour={sched.DateTime.Hour}&place={sched.Place}";
     <div class="row time-line p-1 m-1 @(sched.Status=="Открыт"?"available":"unavailable")">
         <div class="col-lg-12">

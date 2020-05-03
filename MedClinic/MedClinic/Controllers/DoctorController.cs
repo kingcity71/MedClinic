@@ -15,9 +15,63 @@ namespace MedClinic.Controllers
     public class DoctorController : Controller
     {
         private readonly IDoctorService doctorService;
-        public DoctorController(IDoctorService doctorService)
+        private readonly ICommonSerivce commonSerivce;
+        private readonly IScheduleService scheduleService;
+        public DoctorController(IDoctorService doctorService, ICommonSerivce commonSerivce, IScheduleService scheduleService)
         {
             this.doctorService = doctorService;
+            this.commonSerivce = commonSerivce;
+            this.scheduleService = scheduleService;
+        }
+
+
+        [HttpGet("Doctor/schedule/")]
+        public IActionResult Schedule()
+        {
+            var viewModel = new ScheduleViewModel()
+            {
+                Date = DateTime.Today,
+                CalendarMatrix = commonSerivce.GetCalendarMatrix(DateTime.Today)
+            };
+            return View(viewModel);
+        }
+        [HttpGet("Doctor/schedule/{year}/{month}")]
+        public IActionResult Schedule(int year, int month)
+        {
+            var viewModel = new ScheduleViewModel()
+            {
+                Date =new DateTime(year, month,1),
+                CalendarMatrix = commonSerivce.GetCalendarMatrix(DateTime.Today)
+            };
+            return View(viewModel);
+        }
+        [HttpGet]
+        public IActionResult ScheduleDate(int year, int month, int day)
+        {
+            var doctor = doctorService.GetDoctor(User.Identity.Name);
+            var date = new DateTime(year, month, day);
+            var daySched = scheduleService.GetDoctorDaySchedule(date, doctor.Id);
+            var model = new ScheduleDayViewModel()
+            {
+                ScheduleDay = daySched,
+                Date = date
+            };
+            return View(model);
+        }
+        
+        [HttpGet]
+        public IActionResult OpenClosedSchedules(int year, int month, int day)
+        {
+            var doctor = doctorService.GetDoctor(User.Identity.Name);
+            doctorService.OpenClosedSchedules(new DateTime(year, month, day), doctor.Id);
+            return RedirectToAction("ScheduleDate", new {year=year, month = month, day=day });
+        }
+        [HttpGet]
+        public IActionResult CloseOpenedSchedules(int year, int month, int day)
+        {
+            var doctor = doctorService.GetDoctor(User.Identity.Name);
+            doctorService.CloseOpenedSchedules(new DateTime(year, month, day), doctor.Id);
+            return RedirectToAction("ScheduleDate", new { year = year, month = month, day = day });
         }
 
         [HttpGet("doctor/")]
@@ -41,19 +95,19 @@ namespace MedClinic.Controllers
             var doctor = doctorService.GetDoctor(doctorEmail);
             var doctorEditModel = new DoctorEditModel()
             {
-                Id=doctor.Id,
+                Id = doctor.Id,
                 FullName = doctor.FullName,
-                HireDate= doctor.HireDate,
+                HireDate = doctor.HireDate,
                 Email = doctor.Email,
                 Education = doctor.Education,
                 Photo = doctor.Photo,
                 SpecializationId = doctor.SpecializationId,
                 Specializations = doctorService.GetSpecializations()
-                .Select(x=> new SelectListItem()
+                .Select(x => new SelectListItem()
                 {
-                    Text=x.Key,
+                    Text = x.Key,
                     Value = x.Value.ToString(),
-                    Selected = x.Value.ToString()==doctor.SpecializationId.ToString()
+                    Selected = x.Value.ToString() == doctor.SpecializationId.ToString()
                 })
             };
 
@@ -61,7 +115,7 @@ namespace MedClinic.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit (DoctorEditModel editModel)
+        public IActionResult Edit(DoctorEditModel editModel)
         {
             if (ModelState.IsValid)
             {

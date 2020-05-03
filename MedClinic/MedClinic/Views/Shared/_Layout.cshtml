@@ -40,7 +40,15 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Личный кабинет</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="Schedule">Запись к врачу</a>
+                                @if (User.IsInRole("doctor"))
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Doctor" asp-action="Schedule">Расписание</a>
+                                }
+                                @if (User.IsInRole("patient"))
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="Schedule">Запись к врачу</a>
+                                }
+
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a>

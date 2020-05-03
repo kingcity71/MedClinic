@@ -75,5 +75,14 @@ namespace MedClinic.Services
             sched.Status = "Открыт";
             context.SaveChanges();
         }
+
+        public List<Schedule> GetDoctorDaySchedule(DateTime date, Guid doctorId)
+        {
+            var schedule = context.Schedules
+                .Where(x => x.DoctorId == doctorId && x.Date.Date == date.Date)
+                .OrderByDescending(x => x.Date)
+                .ToList();
+            return schedule;
+        }
     }
 }
