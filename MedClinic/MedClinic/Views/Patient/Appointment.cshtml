@@ -2,7 +2,19 @@
 @{
     ViewData["Title"] = "Appointment";
 }
-
+<style>
+    .errorBox{
+        /*border:1px solid red;*/
+        border-radius:3px;
+        background: pink;
+        color:red;
+        text-align:center;
+        font-size:18px;
+    }
+</style>
+<div class="errorBox w-100">
+    <div>@Html.ValidationMessageFor(m => m.ScheduleId)</div>
+</div>
 <h1>Запись на прием</h1>
 <h4>Подтвердить запись на прием: </h4>
 <h5>Дата : @(Model.DateTime.Day).@(Model.DateTime.Month).@(Model.DateTime.Year) @(Model.DateTime.Hour):00</h5>
@@ -12,6 +24,10 @@
 <form method="post">
     @Html.HiddenFor(x => x.PatientId)
     @Html.HiddenFor(x => x.ScheduleId)
+    @Html.HiddenFor(x => x.Doctor)
+    @Html.HiddenFor(x => x.DateTime)
+    @Html.HiddenFor(x => x.Place)
+    @Html.HiddenFor(x => x.Specialization)
     <div class="row">
         <input class="btn btn-success m-2" type="submit" value="Подтвердить" />
         <button class="btn btn-danger m-2" id="cancelBtn">Отменить</button>

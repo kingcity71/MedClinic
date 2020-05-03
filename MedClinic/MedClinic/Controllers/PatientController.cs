@@ -106,8 +106,17 @@ namespace MedClinic.Controllers
         [HttpPost]
         public IActionResult Appointment(AppointmentViewModel viewModel)
         {
-            scheduleService.MakeAppointment(viewModel.ScheduleId, viewModel.PatientId);
-            return RedirectToAction("MySchedules");
+            var schedule = scheduleService.GetSchedule(viewModel.ScheduleId);
+            if (scheduleService.IsTimeToMakeAppointment(viewModel.PatientId, schedule.Date))
+            {
+                scheduleService.MakeAppointment(viewModel.ScheduleId, viewModel.PatientId);
+                return RedirectToAction("MySchedules");
+            }
+            else
+            {
+                ModelState.AddModelError("ScheduleId","У вас есть другая запись на это время или время записи уже неактуально");
+                return View(viewModel);
+            }
         }
         
         [HttpGet]

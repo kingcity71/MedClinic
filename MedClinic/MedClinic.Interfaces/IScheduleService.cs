@@ -17,5 +17,6 @@ namespace MedClinic.Interfaces
         void UpdateAppointment(ScheduleTimeModel model);
         void RemoveAppointment(Guid schedId);
         bool IsAppointmentExist(DateTime date, Guid doctorId);
+        bool IsTimeToMakeAppointment(Guid patientId, DateTime date);
     }
 }
