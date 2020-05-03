@@ -29,6 +29,30 @@ namespace MedClinic.Controllers
             this.patientService = patientService;
         }
 
+        [HttpGet]
+        public IActionResult MySchedules(int currentPage, string status)
+        {
+            var doctor = doctorService.GetDoctor(User.Identity.Name);
+            var states = new[] { "Открыт", "Запись", "Закрыт" };
+            var viewModel = new MySchedulesViewModel()
+            {
+                CurrentPage = currentPage,
+                Count = doctorService.GetSchedulesCount(doctor.Id, status),
+                Doctor = doctor,
+                Schedules = doctorService.GetSchedules(doctor.Id, status, 6, (currentPage-1)*6),
+                Status = status ?? string.Empty,
+                States = states.Select(x => new SelectListItem()
+                {
+                    Text = x,
+                    Value = x,
+                    Selected = status != null?
+                    status==x
+                    :false
+                })
+            };
+
+            return View(viewModel);
+        }
 
         [HttpGet("Doctor/schedule/")]
         public IActionResult Schedule()

@@ -16,6 +16,28 @@ namespace MedClinic.Services
             this.context = context;
         }
 
+        public IEnumerable<Schedule> GetSchedules(Guid doctorId, string status, int take, int skip)
+        {
+            var sched = status != null ?
+                context.Schedules
+                .Where(x => x.Status == status && x.DoctorId == doctorId)
+                .OrderByDescending(x=>x.Date)
+                .Skip(skip)
+                .Take(take)
+                .ToList()
+                : context.Schedules
+                .Where(x => x.DoctorId == doctorId)
+                .OrderByDescending(x => x.Date)
+                .Skip(skip)
+                .Take(take)
+                .ToList();
+            return sched;
+        }
+
+        public int GetSchedulesCount(Guid doctorId, string status)
+            => status != null ? context.Schedules.Count(x => x.DoctorId == doctorId && x.Status == status)
+            : context.Schedules.Count(x => x.DoctorId == doctorId);
+
         public void CloseOpenedSchedules(DateTime date, Guid doctorId)
         {
             var scheds = context.Schedules

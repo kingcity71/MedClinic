@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MedClinic.Entity;
 using MedClinic.Model;
 
 namespace MedClinic.Interfaces
@@ -14,5 +15,8 @@ namespace MedClinic.Interfaces
 
         void OpenClosedSchedules(DateTime date, Guid doctorId);
         void CloseOpenedSchedules(DateTime date, Guid doctorId);
+
+        IEnumerable<Schedule> GetSchedules(Guid doctorId, string status, int take, int skip);
+        int GetSchedulesCount(Guid doctorId, string status);
     }
 }

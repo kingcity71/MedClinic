@@ -1,0 +1,173 @@
+﻿@model MedClinic.Models.Doctor.MySchedulesViewModel
+@{
+    ViewData["Title"] = "Home";
+
+    var count = (double)Model.Count;
+    var currentPage = (int)Model.CurrentPage;
+
+
+    var startPage = currentPage - 3 > 0 ? currentPage - 3 : 1;
+    var maxPage = Math.Ceiling(count / 6);
+    var endPage = startPage + 6 > maxPage
+        ? maxPage
+        : startPage;
+}
+<style>
+    .openAppointment {
+        color: yellow;
+    }
+
+    .closedAppointment {
+        color: green;
+    }
+
+    .btn:hover,
+    .page-link:hover{
+        cursor: pointer;
+    }
+
+     .sched-line:hover {
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-lg-12">
+                    @if (string.IsNullOrEmpty(Model.Doctor.Photo))
+                    {
+                        @Html.Partial("../Shared/NoPhotoView");
+                    }
+                    else
+                    {
+                        <img src="@Model.Doctor.Photo" class="img-thumbnail" />
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 p-1">
+                    <a href="\doctor\">
+                        <button type="button" class="btn btn-outline-primary w-100">
+                            Профиль
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-12 p-1">
+                    <a href="\doctor\Edit">
+                        <button type="button" class="btn btn-outline-primary w-100">
+                            Редактировать
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-12 p-1">
+                    <a href="\doctor\MySchedules?take=6&skip=0&currentPage=1">
+                        <button type="button" class="btn btn-primary w-100">
+                            Записи
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-12 profile-wrapper">
+                    <div class="col-lg-12">
+                        <div class="text-center">
+                            @Model.Doctor.FullName
+                        </div>
+                    </div>
+                    <div class="col-lg-12 row m-1">
+                        <label class="col-lg-2 col-form-label">Статус</label>
+                        <div class="col-lg-8">
+                            @Html.DropDownListFor(m => m.Status,
+                         Model.States,
+                         "Выберите из списка", new { @class = "form-control" })
+                        </div>
+                        <div class="btn btn-success col-lg-2" onclick="goTo()">
+                            Поиск
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <ul class="pagination">
+                            <!-- Declare the item in the group -->
+                            <li class="page-item">
+                                <!-- Declare the link of the item -->
+                                <span class="page-link"
+                                      onclick="goTo()">Начало</span>
+                            </li>
+
+                            @for (var i = startPage; i <= endPage; i++)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link @(i==currentPage? "font-weight-bold":string.Empty)"
+                                          onclick="goToPage(@i)">@i</span>
+                                    </li>
+                                }
+
+                            <li class="page-item">
+                                <span class="page-link"
+                                      onclick="goToPage(@maxPage)">Конец</span>
+                            </li>
+                        </ul>
+                    </div>
+                    @foreach (var data in Model.Schedules)
+                    {
+                        <div class="profile-wrapper m-1 sched-line"
+                             onclick="goToSched('@($"/doctor/appointment?schedId={data.Id}")')">
+                            <input class="schedId" value="@data.Id" hidden />
+                            <div>Дата @(data.Date.ToShortDateString()) @(data.Date.Hour):00</div>
+                            <div>Место : @data.Place</div>
+                            <div>
+                                Статус :
+                                <span class="@(data.Status == "Запись"?"openAppointment":"closedAppointment")">
+                                    @data.Status
+                                </span>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-lg-12">
+                        <ul class="pagination">
+                            <!-- Declare the item in the group -->
+                            <li class="page-item">
+                                <!-- Declare the link of the item -->
+                                <span class="page-link"
+                                      onclick="goTo()">Начало</span>
+                            </li>
+
+                            @for (var i = startPage; i <= endPage; i++)
+                            {
+                                <li class="page-item">
+                                    <span class="page-link @(i==currentPage? "font-weight-bold":string.Empty)"
+                                          onclick="goToPage(@i)">
+                                        @i
+                                    </span>
+                                </li>
+                            }
+
+                            <li class="page-item">
+                                <span class="page-link"
+                                      onclick="goToPage(@maxPage)">Конец</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+               
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    let goTo = () => {
+        redirect('/doctor/MySchedules?status=' + $('#Status').val() +'&currentPage=1');
+    }
+    let goToPage = (page) => {
+        redirect('/doctor/MySchedules?status=' + $('#Status').val() +'&currentPage=' + page);
+    }
+
+    let goToSched = (url) => {
+        redirect(url);
+    }
+</script>
