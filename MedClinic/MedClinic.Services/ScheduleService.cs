@@ -1,6 +1,7 @@
 ﻿using MedClinic.Data;
 using MedClinic.Entity;
 using MedClinic.Interfaces;
+using MedClinic.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,15 @@ using System.Text;
 
 namespace MedClinic.Services
 {
-    public class ScheduleService: IScheduleService
+    public class ScheduleService : IScheduleService
     {
         private readonly MedClinicContext context;
-        public ScheduleService(MedClinicContext context)
+        private readonly IDoctorService doctorService;
+
+        public ScheduleService(MedClinicContext context, IDoctorService doctorService)
         {
             this.context = context;
+            this.doctorService = doctorService;
         }
         public List<Schedule> GetDaySchedule(DateTime date, Guid specializationId)
         {
@@ -23,6 +27,45 @@ namespace MedClinic.Services
                 .OrderBy(x => x.Date.Hour)
                 .ToList();
             return daySchedule;
+        }
+        public List<ScheduleTimeModel> GetTimeSchedule(DateTime dateTime, Guid specializationId)
+        {
+            var doctors = context
+                .Doctors
+                .Where(x => x.SpecializationId == specializationId)
+                .Select(x => x.Id);
+
+            var specialization = context
+                .Specializations
+                .FirstOrDefault(x => x.Id == specializationId);
+
+            var timeSchedules = context.Schedules
+                .Where(x => x.Date.Date == dateTime.Date 
+                && x.Date.Hour == dateTime.Hour
+                && doctors.Contains(x.DoctorId))
+                .OrderBy(x => x.Date.Hour)
+                .ToList();
+
+            return timeSchedules
+                .Select(x => new ScheduleTimeModel()
+                {
+                    ScheduleId = x.Id,
+                    Status = x.Status,
+                    Place = x.Place,
+                    DateTime = dateTime,
+                    Doctor = doctorService.GetDoctor(x.DoctorId),
+                    SpecializationId = specializationId,
+                    SpecializationName = specialization.Name
+                })
+                .ToList();
+        }
+    
+        public void MakeAppointment(Guid schedId, Guid patientId)
+        {
+            var sched = context.Schedules.FirstOrDefault(x => x.Id == schedId);
+            sched.PatientId = patientId;
+            sched.Status = "Запись";
+            context.SaveChanges();
         }
     }
 }

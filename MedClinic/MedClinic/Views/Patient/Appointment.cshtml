@@ -1,0 +1,26 @@
+﻿@model MedClinic.Models.AppointmentPatientViewModel
+@{
+    ViewData["Title"] = "Appointment";
+}
+
+<h1>Запись на прием</h1>
+<h4>Подтвердить запись на прием: </h4>
+<h5>Дата : @(Model.DateTime.Day).@(Model.DateTime.Month).@(Model.DateTime.Year) @(Model.DateTime.Hour):00</h5>
+<h5>@Model.Specialization : @Model.Doctor</h5>
+<h5>Место : @Model.Place</h5>
+
+<form method="post">
+    @Html.HiddenFor(x => x.PatientId)
+    @Html.HiddenFor(x => x.ScheduleId)
+    <div class="row">
+        <input class="btn btn-success m-2" type="submit" value="Подтвердить" />
+        <button class="btn btn-danger m-2" id="cancelBtn">Отменить</button>
+    </div>
+</form>
+
+<script>
+    $('#cancelBtn').on('click', function (e) {
+        e.preventDefault();
+        redirect('/patient/schedule/');
+    })
+</script>

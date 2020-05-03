@@ -18,8 +18,8 @@ namespace MedClinic.Controllers
         private readonly IDoctorService doctorService;
         private readonly IScheduleService scheduleService;
 
-        public PatientController(IPatientService patienService, 
-            ICommonSerivce commonSerivce, 
+        public PatientController(IPatientService patienService,
+            ICommonSerivce commonSerivce,
             IDoctorService doctorService,
             IScheduleService scheduleService)
         {
@@ -28,7 +28,7 @@ namespace MedClinic.Controllers
             this.doctorService = doctorService;
             this.scheduleService = scheduleService;
         }
-        
+
         [HttpGet("patient/schedule/")]
         public IActionResult Schedule()
         {
@@ -71,6 +71,46 @@ namespace MedClinic.Controllers
             return View(model);
         }
 
+        [HttpGet("patient/ScheduleTime/{year}/{month}/{day}/{hour}/{specializationId}")]
+        public IActionResult ScheduleTime(
+            int year,
+            int month,
+            int day,
+            int hour,
+            Guid specializationId)
+        {
+            var dateTime = new DateTime(year, month, day, hour, 0, 0);
+            var schedModels = scheduleService.GetTimeSchedule(dateTime, specializationId);
+            return View(schedModels);
+        }
+
+
+        [HttpGet]
+        //[HttpGet("patient/Appointment/{id}/{doctor}/{spec}/{year}/{month}/{day}/{hour}/{place}")]
+        public IActionResult Appointment(Guid id, string doctor, string spec, 
+            int year, int month, int day, int hour,
+            string place)
+        {
+            var viewModel = new AppointmentPatientViewModel()
+            {
+                Specialization=spec,
+                Doctor = doctor,
+                DateTime = new DateTime(year,month,day,hour,0,0),
+                Place = place,    
+                ScheduleId = id,
+                PatientId = patienService.GetPatient(User.Identity.Name).Id
+            };
+            return View(viewModel);
+        }
+
+        //[HttpPost("patient/Appointment/")]
+        [HttpPost]
+        public IActionResult Appointment(AppointmentPatientViewModel viewModel)
+        {
+            scheduleService.MakeAppointment(viewModel.ScheduleId, viewModel.PatientId);
+            return View();
+        }
+
         [HttpGet("patient/")]
         public IActionResult Home()
         {
@@ -98,11 +138,11 @@ namespace MedClinic.Controllers
                 FullName = patient.FullName,
                 MedData = patient.MedData,
                 PassData = patient.PassData,
-                Sex = patient.IsMan==true
+                Sex = patient.IsMan == true
             };
             return View(patientEditModel);
         }
-       
+
         [HttpPost]
         public IActionResult Edit(PatientEditModel patientEditModel)
         {
@@ -116,7 +156,7 @@ namespace MedClinic.Controllers
             else
                 return View(patientEditModel);
         }
-        
+
         [HttpGet("patientData/{patientId}")]
         public IActionResult PatientData(Guid patientId)
         {
@@ -131,7 +171,7 @@ namespace MedClinic.Controllers
         {
             var patient = patienService.GetPatient(patientId);
             var conclusions = patienService.GetConclusions(patientId);
-            var patientConclusionsViewModel = new PatientConclusionsViewModel() { Patient = patient, Conslusions = conclusions};
+            var patientConclusionsViewModel = new PatientConclusionsViewModel() { Patient = patient, Conslusions = conclusions };
             return View(patientConclusionsViewModel);
         }
         private PatientModel MapPatientModel(PatientEditModel editModel)
@@ -139,7 +179,7 @@ namespace MedClinic.Controllers
             var config = new MapperConfiguration(cfg => cfg.CreateMap<PatientEditModel, PatientModel>());
             var mapper = new Mapper(config);
             var patientModel = mapper.Map<PatientModel>(editModel);
-            
+
             if (editModel.PhotoFile != null)
             {
                 byte[] imageData = null;

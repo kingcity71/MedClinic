@@ -1,0 +1,53 @@
+﻿@using MedClinic.Model;
+@model List<ScheduleTimeModel>;
+@{
+    ViewData["Title"] = "ScheduleTime";
+    var specializationName = Model.FirstOrDefault().SpecializationName;
+    var specializationId = Model.FirstOrDefault().SpecializationId;
+    var dateTime = Model.FirstOrDefault().DateTime;
+}
+<style>
+    .time-line {
+        border: 1px solid gray;
+        border-radius: 3px;
+    }
+
+    .unavailable {
+        background: lightgray;
+        color: dimgrey;
+    }
+
+        .unavailable:hover {
+            cursor: not-allowed;
+        }
+
+    .available {
+        background-color: lightgreen;
+    }
+
+        .available:hover {
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+</style>
+<h1>@specializationName : Запись на @($"{dateTime.Day}.{dateTime.Month }.{dateTime.Year} {dateTime.Hour}:00")</h1>
+<div class="container">
+    @foreach (var sched in Model)
+    {
+        //Guid id, string doctor, string spec, 
+            //int year, int month, int day, int hour,
+            //string place
+        var url = $"/patient/Appointment?id={sched.ScheduleId}&doctor={sched.Doctor.FullName}&spec={sched.SpecializationName}&year={sched.DateTime.Year}&month={sched.DateTime.Month}&day={sched.DateTime.Day}&hour={sched.DateTime.Hour}&place={sched.Place}";
+        <div class="row time-line m-1 @(sched.Status=="Открыт"?"available":"unavailable")"
+             onclick="@(sched.Status=="Открыт"?$"makeAppointment('{url}')":string.Empty)">
+            <h4>
+                <a href="/doctor/@sched.Doctor.Id" target="_blank">@(sched.Doctor.FullName)</a>, @(sched.Place)
+            </h4>
+        </div>
+    }
+</div>
+<script>
+    let makeAppointment = (url) => {
+        redirect(url);
+    }
+</script>
