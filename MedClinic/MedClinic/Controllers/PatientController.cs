@@ -91,7 +91,7 @@ namespace MedClinic.Controllers
             int year, int month, int day, int hour,
             string place)
         {
-            var viewModel = new AppointmentPatientViewModel()
+            var viewModel = new AppointmentViewModel()
             {
                 Specialization=spec,
                 Doctor = doctor,
@@ -104,7 +104,7 @@ namespace MedClinic.Controllers
         }
 
         [HttpPost]
-        public IActionResult Appointment(AppointmentPatientViewModel viewModel)
+        public IActionResult Appointment(AppointmentViewModel viewModel)
         {
             scheduleService.MakeAppointment(viewModel.ScheduleId, viewModel.PatientId);
             return RedirectToAction("MySchedules");

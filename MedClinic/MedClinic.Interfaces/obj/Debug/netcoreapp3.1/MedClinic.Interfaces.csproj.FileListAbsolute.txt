@@ -1,7 +1,9 @@
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Interfaces.deps.json
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Interfaces.dll
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Interfaces.pdb
+D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Entity.dll
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Model.dll
+D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Entity.pdb
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Model.pdb
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\obj\Debug\netcoreapp3.1\MedClinic.Interfaces.csprojAssemblyReference.cache
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\obj\Debug\netcoreapp3.1\MedClinic.Interfaces.AssemblyInfoInputs.cache
@@ -9,5 +11,3 @@ D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\obj\Debug\netcoreapp3.1\MedCli
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\obj\Debug\netcoreapp3.1\MedClinic.Interfaces.csproj.CopyComplete
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\obj\Debug\netcoreapp3.1\MedClinic.Interfaces.dll
 D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\obj\Debug\netcoreapp3.1\MedClinic.Interfaces.pdb
-D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Entity.dll
-D:\repos\MedClinic\MedClinic\MedClinic.Interfaces\bin\Debug\netcoreapp3.1\MedClinic.Entity.pdb

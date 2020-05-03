@@ -53,29 +53,36 @@
 
         var status = string.Empty;
         var state = string.Empty;
+        var url = string.Empty;
 
         switch (sched?.Status)
         {
             case "Открыт":
                 state = "available";
                 status = "Запись открыта";
+                url = $"/doctor/appointment?schedId={sched.Id}";
                 break;
             case "Закрыт":
                 state = "closed";
                 status = "Запись закрыта";
+                url = $"/doctor/appointment?schedId={sched.Id}";
                 break;
             case "Запись":
                 state = "booked";
                 status = "Пациент записан";
+                url = $"/doctor/appointment?schedId={sched.Id}";
                 break;
             default:
                 state = "unavailable";
                 status = "Запись не создана";
+                url = $"/doctor/appointment?schedId={Guid.Empty}&year={Model.Date.Year}&month={Model.Date.Month}&day={Model.Date.Day}&hour={i}";
                 break;
         }
 
-        // var url = $"/patient/scheduleTime/{Model.Date.Year}/{Model.Date.Month}/{Model.Date.Day}/{i}/{Model.SpecialiazationId}";
-        <div class="row time-line m-1 @(state)" style="font-size:20px">
+        
+        <div class="row time-line m-1 @(state)" 
+             style="font-size:20px"
+             onclick="appointment('@url')">
             Время @i:00 @status
         </div>
     }
@@ -86,6 +93,10 @@
     }
 
     let closeOpenedSchedules = (url) => {
+        redirect(url);
+    }
+
+    let appointment = (url) => {
         redirect(url);
     }
 </script>

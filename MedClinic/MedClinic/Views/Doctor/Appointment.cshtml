@@ -1,0 +1,66 @@
+﻿@model MedClinic.Models.Doctor.AppointmentViewModel
+@{
+    ViewData["Title"] = "Appointment";
+}
+<style>
+    .btn:hover {
+        cursor: pointer;
+    }
+
+    .errorBox{
+        /*border:1px solid red;*/
+        border-radius:3px;
+        background: pink;
+        color:red;
+        text-align:center;
+        font-size:18px;
+    }
+</style>
+<h1>Запись на прием</h1>
+<div class="errorBox w-100">
+    <div>@Html.ValidationMessageFor(m => m.DateTime)</div>
+    <div>@Html.ValidationMessageFor(m => m.State)</div>
+    <div>@Html.ValidationMessageFor(m => m.Place)</div>
+    <div>@Html.ValidationMessageFor(m => m.Hour)</div>
+</div>
+
+<div class="validation" asp-validation-summary="ModelOnly"></div>
+<form method="post">
+    @Html.HiddenFor(x => x.ScheduleId)
+    @Html.HiddenFor(x => x.Patient.Id)
+    @Html.HiddenFor(x => x.Patient.FullName)
+    @Html.Partial("../shared/textbox", ("Place", "Место приёма", @Model.Place, true, "text"))
+    @Html.Partial("../shared/datePickerBox", ("DateTime", "Дата приёма", @Model.DateTime))
+
+    <div class="form-group row p-1">
+        <label class="col-sm-3 col-form-label">Время приёма</label>
+        <div class="col-sm-9">
+            @Html.DropDownListFor(m => m.Hour,
+         Model.Hours,
+         "Выберите из списка", new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group row p-1">
+        <label class="col-sm-3 col-form-label">Статус приёма</label>
+        <div class="col-sm-9">
+            @Html.DropDownListFor(m => m.State,
+         Model.States,
+         "Выберите из списка", new { @class = "form-control" })
+        </div>
+    </div>
+    @if (Model.Patient.Id != Guid.Empty)
+    {
+        <div class="form-group row p-1">
+            <label class="col-sm-3 col-form-label">Пациент</label>
+            <div class="col-sm-9">
+                <a href="/patient/@{Model.Patient.Id.ToString();}" target="_blank">
+                    @Model.Patient.FullName
+                </a>
+            </div>
+        </div>
+    }
+
+
+    <input type="submit" class="btn btn-success" value="Сохранить" />
+</form>

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace MedClinic.Models
+namespace MedClinic.Models.Patient
 {
-    public class AppointmentPatientViewModel
+    public class AppointmentViewModel
     {
         public DateTime DateTime { get; set; }
         public string Doctor { get; set; }

@@ -84,5 +84,45 @@ namespace MedClinic.Services
                 .ToList();
             return schedule;
         }
+
+        public Schedule GetSchedule(Guid id) => context.Schedules.FirstOrDefault(x=>x.Id==id);
+
+        public void UpdateAppointment(ScheduleTimeModel model)
+        {
+            var sched = context.Schedules.FirstOrDefault(x => x.Id == model.ScheduleId);
+            if (sched == null)
+            {
+                sched = new Schedule()
+                {
+                    Id = Guid.NewGuid(),
+                    DoctorId = model.Doctor.Id
+                };
+                sched.Place = model.Place;
+                sched.Status = model.Status;
+                sched.Date = model.DateTime;
+                sched.PatientId = Guid.Empty;
+                context.Schedules.Add(sched);
+                context.SaveChanges();
+                return;
+            }
+                
+            sched.Place = model.Place;
+            sched.Status = model.Status;
+            sched.Date = model.DateTime;
+            if (model.Status == "Открыт")
+                sched.PatientId = Guid.Empty;
+            context.SaveChanges();
+        }
+
+        public void RemoveAppointment(Guid schedId)
+        {
+            var sched = context.Schedules.FirstOrDefault(x => x.Id == schedId);
+            if (sched == null) return;
+            context.Schedules.Remove(sched);
+            context.SaveChanges();
+        }
+
+        public bool IsAppointmentExist(DateTime date, Guid doctorId)
+            => context.Schedules.Any(x => x.DoctorId == doctorId && x.Date == date);
     }
 }
