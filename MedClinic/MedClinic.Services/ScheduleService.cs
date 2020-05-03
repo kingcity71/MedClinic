@@ -67,5 +67,13 @@ namespace MedClinic.Services
             sched.Status = "Запись";
             context.SaveChanges();
         }
+
+        public void CancelAppointment(Guid schedId)
+        {
+            var sched = context.Schedules.FirstOrDefault(x => x.Id == schedId);
+            sched.PatientId = Guid.Empty;
+            sched.Status = "Открыт";
+            context.SaveChanges();
+        }
     }
 }

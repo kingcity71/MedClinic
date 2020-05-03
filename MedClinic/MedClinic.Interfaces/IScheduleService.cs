@@ -11,5 +11,6 @@ namespace MedClinic.Interfaces
         List<Schedule> GetDaySchedule(DateTime date, Guid specializationId);
         List<ScheduleTimeModel> GetTimeSchedule(DateTime dateTime, Guid specializationId);
         void MakeAppointment(Guid schedId, Guid patientId);
+        void CancelAppointment(Guid schedId);
     }
 }

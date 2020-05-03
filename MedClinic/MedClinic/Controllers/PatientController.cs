@@ -6,6 +6,7 @@ using AutoMapper;
 using MedClinic.Interfaces;
 using MedClinic.Model;
 using MedClinic.Models;
+using MedClinic.Models.Patient;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -86,7 +87,6 @@ namespace MedClinic.Controllers
 
 
         [HttpGet]
-        //[HttpGet("patient/Appointment/{id}/{doctor}/{spec}/{year}/{month}/{day}/{hour}/{place}")]
         public IActionResult Appointment(Guid id, string doctor, string spec, 
             int year, int month, int day, int hour,
             string place)
@@ -103,12 +103,27 @@ namespace MedClinic.Controllers
             return View(viewModel);
         }
 
-        //[HttpPost("patient/Appointment/")]
         [HttpPost]
         public IActionResult Appointment(AppointmentPatientViewModel viewModel)
         {
             scheduleService.MakeAppointment(viewModel.ScheduleId, viewModel.PatientId);
-            return View();
+            return RedirectToAction("MySchedules");
+        }
+        
+        [HttpGet]
+        public IActionResult CancelAppointment(Guid schedId)
+        {
+            scheduleService.CancelAppointment(schedId);
+            return RedirectToAction("MySchedules");
+        }
+
+        [HttpGet("patient/MySchedules/")]
+        public IActionResult MySchedules()
+        {
+            var patient = patienService.GetPatient(User.Identity.Name);
+            var mySchedules = patienService.GetMySchedules(patient.Id);
+            var viewModel = new MySchedulesViewModel() { Patient = patient, Schedules = mySchedules };
+            return View(viewModel);
         }
 
         [HttpGet("patient/")]

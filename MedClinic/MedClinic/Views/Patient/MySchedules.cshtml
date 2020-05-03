@@ -1,7 +1,19 @@
-﻿@model PatientConclusionsViewModel
+﻿@model MedClinic.Models.Patient.MySchedulesViewModel
 @{
     ViewData["Title"] = "Home";
 }
+<style>
+    .openAppointment {
+        color: yellow;
+    }
+
+    .closedAppointment {
+        color: green;
+    }
+    .btn:hover{
+        cursor:pointer;
+    }
+</style>
 <div class="container">
     <div class="row">
         <div class="col-lg-4">
@@ -20,7 +32,7 @@
                 </div>
                 <div class="col-lg-12 p-1">
                     <a href="\patient\MySchedules\">
-                        <button type="button" class="btn btn-outline-primary w-100">
+                        <button type="button" class="btn btn-primary w-100">
                             Мои записи
                         </button>
                     </a>
@@ -34,7 +46,7 @@
                 </div>
                 <div class="col-lg-12 p-1">
                     <a href="\patientConclusions\@Model.Patient.Id">
-                        <button type="button" class="btn btn-primary w-100">
+                        <button type="button" class="btn btn-outline-primary w-100">
                             Заключения специалистов
                         </button>
                     </a>
@@ -49,35 +61,37 @@
                             @Model.Patient.FullName
                         </div>
                     </div>
-                    @foreach (var conslusion in Model.Conslusions)
+                    @foreach (var data in Model.Schedules)
                     {
-                <div class="profile-wrapper">
-                    <div class="col-lg-12">
-                        <div class="text-left">
-                            Дата : @conslusion.Date.ToShortDateString()
-                        </div>
-                    </div>
+                        <div class="profile-wrapper">
+                            <input class="schedId" value="@data.ScheduleId" hidden />
+                            <div>Дата @(data.DateTime.ToShortDateString()) @(data.DateTime.Hour):00</div>
+                            <div>@data.Doctor.Specialization : <a href="/doctor/@data.Doctor.Id" target="_blank">@data.Doctor.FullName</a> </div>
+                            <div>Место : @data.Place</div>
+                            <div>
+                                Статус :
+                                <span class="@(data.Status == "Запись"?"openAppointment":"closedAppointment")">
+                                    @data.Status
+                                </span>
+                            </div>
+                            @if (data.Status == "Запись")
+                            {
+                                var url = $"/patient/CancelAppointment?schedId={data.ScheduleId}";
 
-                    <div class="col-lg-12">
-                        <div class="text-left">
-                            Доктор : 
-                            <a href="\doctor\@conslusion.Doctor.Id">
-                                @conslusion.Doctor.FullName
-                            </a>,
-                             @conslusion.Doctor.Specialization
+                                <div class="btn btn-primary"
+                                     onclick="cancelAppointment('@url')">
+                                    Отменить
+                                </div>
+                            }
                         </div>
-                    </div>
-
-                    <div class="col-lg-12">
-                        <div class="text-left">
-                            Заключение : @conslusion.Result
-                        </div>
-                    </div>
-                </div>
                     }
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<script>
+    let cancelAppointment = (url) => {
+        redirect(url);
+    }
+</script>

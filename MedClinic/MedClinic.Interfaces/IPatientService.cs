@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using MedClinic.Model;
+using MedClinic.Model.Patient;
 
 namespace MedClinic.Interfaces
 {
@@ -13,5 +14,6 @@ namespace MedClinic.Interfaces
         void UpdatePatient(PatientModel patientModel);
         IEnumerable<PatientDataModel> GetPatientData(Guid patientId);
         IEnumerable<ConslusionModel> GetConclusions(Guid patientId);
+        IEnumerable<MyScheduleModel> GetMySchedules(Guid id);
     }
 }
