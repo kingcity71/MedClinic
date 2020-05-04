@@ -18,5 +18,7 @@ namespace MedClinic.Interfaces
 
         IEnumerable<Schedule> GetSchedules(Guid doctorId, string status, int take, int skip);
         int GetSchedulesCount(Guid doctorId, string status);
+
+        bool IsTherapist(Guid doctorId);
     }
 }

@@ -54,7 +54,7 @@
         <div class="form-group row p-1">
             <label class="col-sm-3 col-form-label">Пациент</label>
             <div class="col-sm-9">
-                <a href="/patient/@{Model.Patient.Id.ToString();}" target="_blank">
+                <a href="/patient/@(Model.Patient.Id)" target="_blank">
                     @Model.Patient.FullName
                 </a>
             </div>

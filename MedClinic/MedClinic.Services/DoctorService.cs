@@ -132,5 +132,11 @@ namespace MedClinic.Services
             var doctor = mapper.Map<Doctor>(doctorModel);
             return doctor;
         }
+
+        public bool IsTherapist(Guid doctorId)
+        {
+            var specId = context.Specializations.FirstOrDefault(x=>x.Name.ToLower()=="терапевт")?.Id;
+            return (context.Doctors.FirstOrDefault(x => x.Id == doctorId)?.SpecializationId == specId) == true;
+        }
     }
 }

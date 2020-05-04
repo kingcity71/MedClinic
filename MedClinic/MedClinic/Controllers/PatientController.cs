@@ -184,18 +184,58 @@ namespace MedClinic.Controllers
         public IActionResult PatientData(Guid patientId)
         {
             var patient = patienService.GetPatient(patientId);
-            var patientData = patienService.GetPatientData(patientId);
-            var patientDataViewModel = new PatientDataViewModel() { Patient = patient, PatientDatas = patientData };
-            return View(patientDataViewModel);
+            //if (patient.Email != User.Identity.Name) return Redirect($"/patient/{patientId}");
+
+            var doctor = doctorService.GetDoctor(User.Identity.Name);
+            
+
+            if(patient.Email == User.Identity.Name ||
+                (doctor != null && doctorService.IsTherapist(doctor.Id)))
+            {
+                var patientData = patienService.GetPatientData(patientId);
+                var patientDataViewModel = new PatientDataViewModel()
+                {
+                    Patient = patient,
+                    PatientDatas = patientData
+                };
+                return View(patientDataViewModel);
+            }
+            if (doctor != null)
+            {
+                var patientData = patienService.GetPatientData(patientId, doctor.SpecializationId);
+                var patientDataViewModel = new PatientDataViewModel()
+                {
+                    Patient = patient,
+                    PatientDatas = patientData
+                };
+                return View(patientDataViewModel);
+            }
+            return Redirect($"/patient/{patientId}");
         }
 
         [HttpGet("patientConclusions/{patientId}")]
         public IActionResult Conslusions(Guid patientId)
         {
             var patient = patienService.GetPatient(patientId);
-            var conclusions = patienService.GetConclusions(patientId);
-            var patientConclusionsViewModel = new PatientConclusionsViewModel() { Patient = patient, Conslusions = conclusions };
-            return View(patientConclusionsViewModel);
+            //if (patient.Email != User.Identity.Name) return Redirect($"/patient/{patientId}");
+
+            var doctor = doctorService.GetDoctor(User.Identity.Name);
+
+            if (patient.Email == User.Identity.Name ||
+                (doctor != null && doctorService.IsTherapist(doctor.Id)))
+            {
+                var conclusions = patienService.GetConclusions(patientId);
+                var patientConclusionsViewModel = new PatientConclusionsViewModel() { Patient = patient, Conslusions = conclusions };
+                return View(patientConclusionsViewModel);
+            }
+            
+            if (doctor != null)
+            {
+                var conclusions = patienService.GetConclusions(patientId, doctor.SpecializationId);
+                var patientConclusionsViewModel = new PatientConclusionsViewModel() { Patient = patient, Conslusions = conclusions };
+                return View(patientConclusionsViewModel);
+            }
+            return Redirect($"/patient/{patientId}");
         }
         private PatientModel MapPatientModel(PatientEditModel editModel)
         {

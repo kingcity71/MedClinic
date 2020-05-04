@@ -43,7 +43,26 @@ namespace MedClinic.Services
 
             return patientConclusionsModels;
         }
+        public IEnumerable<ConslusionModel> GetConclusions(Guid patientId, Guid specId)
+        {
+            var doctorIds = context.Doctors.Where(x => x.SpecializationId == specId).Select(x => x.Id).ToList();
+            var scheds = context.Schedules.Where(x => x.PatientId == patientId && doctorIds.Contains(x.DoctorId))
+                .Select(x => x.Id).ToList();
 
+            var conclusions = context.Conclusions
+                .Where(x => x.PatientId == patientId && scheds.Contains(x.ScheduleId))
+                .OrderBy(x => x.Date)
+                .ToList();
+
+            var patientConclusionsModels = conclusions.Select(x => new ConslusionModel()
+            {
+                Date = x.Date,
+                Doctor = doctorService.GetDoctor(x.DoctorId),
+                Result = x.Result
+            }).ToList();
+
+            return patientConclusionsModels;
+        }
         public PatientModel GetPatient(Guid id)
         {
             var patient = context.Patients.FirstOrDefault(x => x.Id == id);
@@ -63,6 +82,27 @@ namespace MedClinic.Services
                 .Where(x => x.PatientId == patientId)
                 .OrderBy(x => x.Date)
                 .ToList();
+            var properties = context.Properties.ToList();
+            var patientDataModels = patientData.Select(x => new PatientDataModel()
+            {
+                Date = x.Date,
+                PropName = properties.FirstOrDefault(y => y.Id == x.PropertyId)?.Name,
+                PropValue = x.Value
+            }).ToList();
+
+            return patientDataModels;
+        }
+        public IEnumerable<PatientDataModel> GetPatientData(Guid patientId, Guid specId)
+        {
+            var doctorIds = context.Doctors.Where(x => x.SpecializationId == specId).Select(x=>x.Id).ToList();
+            var scheds = context.Schedules.Where(x => x.PatientId == patientId && doctorIds.Contains(x.DoctorId))
+                .Select(x=>x.Id).ToList();
+            
+            var patientData = context.PatientDatas
+                .Where(x => x.PatientId == patientId && scheds.Contains(x.ScheduleId))
+                .OrderBy(x => x.Date)
+                .ToList();
+
             var properties = context.Properties.ToList();
             var patientDataModels = patientData.Select(x => new PatientDataModel()
             {

@@ -77,7 +77,7 @@ namespace MedClinic.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
+                    ModelState.AddModelError("Email", "Неправильный логин и (или) пароль");
                 }
                 return View(model);
             }
@@ -87,22 +87,6 @@ namespace MedClinic.Controllers
         private async Task CreateRole(string name)
         {
             await roleManager.CreateAsync(new IdentityRole(name));
-        }
-        private async Task Authenticate(string userEmail, string role)
-        {
-            // создаем один claim
-            var claims = new List<Claim>
-            {
-                 //new Claim(ClaimsIdentity.DefaultNameClaimType, userEmail),
-                 new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
-            };
-            // создаем объект ClaimsIdentity
-            ClaimsIdentity id = new ClaimsIdentity(claims, 
-                "ApplicationCookie", 
-                ClaimsIdentity.DefaultNameClaimType, 
-                ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
         public async Task<IActionResult> Logout()

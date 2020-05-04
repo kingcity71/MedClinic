@@ -13,7 +13,9 @@ namespace MedClinic.Interfaces
         PatientModel GetPatient(String email);
         void UpdatePatient(PatientModel patientModel);
         IEnumerable<PatientDataModel> GetPatientData(Guid patientId);
+        IEnumerable<PatientDataModel> GetPatientData(Guid patientId, Guid specId);
         IEnumerable<ConslusionModel> GetConclusions(Guid patientId);
+        IEnumerable<ConslusionModel> GetConclusions(Guid patientId, Guid specId);
         IEnumerable<MyScheduleModel> GetMySchedules(Guid id);
     }
 }
