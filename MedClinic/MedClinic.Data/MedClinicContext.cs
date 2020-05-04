@@ -37,7 +37,7 @@ namespace MedClinic.Data
             modelBuilder.Entity<Doctor>().HasData(
                 new Doctor[]
                 {
-                new Doctor { Id=Guid.Parse("EA63C0AC-949B-42A5-AECF-245F79D3AEC7"), 
+                new Doctor { Id=Guid.Parse("EA63C0AC-949B-42A5-AECF-245F79D3AEC7"),
                     FullName="Илья Владимирович Полежайкин",
                     BirthDate= new DateTime(1951,2,3), Email="doctor1@doctor1.doctor1",
                     Password="12345678",
@@ -91,7 +91,7 @@ namespace MedClinic.Data
                     Status="Закрыт"
                 },
                 new Schedule{
-                    Id=Guid.NewGuid(),
+                    Id= Guid.Parse("{C7166054-1818-41F4-B60B-7074621905FD}"),
                     Date=new DateTime(2020,03,05,12,00,00),
                     DoctorId=Guid.Parse("{EA63C0AC-949B-42A5-AECF-245F79D3AEC7}"),
                     PatientId=Guid.Parse("F2CAFE96-A5ED-47ED-B927-2306596AEC3D"),
@@ -99,7 +99,7 @@ namespace MedClinic.Data
                     Status="Открыт"
                 },
                 new Schedule{
-                    Id=Guid.NewGuid(),
+                    Id= Guid.Parse("{29602307-2098-4E0E-922B-B6FB34C1EC0D}"),
                     Date=new DateTime(2020,03,05,14,00,00),
                     DoctorId=Guid.Parse("2E82C22C-5FAB-4F51-B204-7C2BAC863A4C"),
                     PatientId=Guid.Parse("FE134BA1-39CC-45F0-A187-0A5A61FD38EE"),
@@ -107,7 +107,7 @@ namespace MedClinic.Data
                     Status="Открыт"
                 },
                  new Schedule{
-                    Id=Guid.NewGuid(),
+                    Id= Guid.Parse("{2D6F3F86-10B5-4816-83E4-5CDFA715A626}"),
                     Date=new DateTime(2020,03,05,10,00,00),
                     DoctorId=Guid.Parse("E7937D1B-FADE-4BE9-825F-6B1CDB18F19A"),
                     PatientId=Guid.Parse("493F5E4E-C66C-42FC-93C9-25AEDBA4E3E7"),
@@ -128,17 +128,17 @@ namespace MedClinic.Data
             modelBuilder.Entity<PatientData>().HasData(
                 new PatientData[]
                 {
-                    new PatientData{Id=Guid.NewGuid(), Date=new DateTime(2020,03,03), Value="45", PropertyId=Guid.Parse("{A1426260-82BB-4B62-A67A-D43C9321323F}"), PatientId= Guid.Parse("FE134BA1-39CC-45F0-A187-0A5A61FD38EE")},
-                    new PatientData{Id=Guid.NewGuid(), Date=new DateTime(2020,03,03), Value="74", PropertyId=Guid.Parse("{A1426260-82BB-4B62-A67A-D43C9321323F}"), PatientId= Guid.Parse("F2CAFE96-A5ED-47ED-B927-2306596AEC3D")},
-                    new PatientData{Id=Guid.NewGuid(), Date=new DateTime(2020,03,03), Value="71", PropertyId=Guid.Parse("{A1426260-82BB-4B62-A67A-D43C9321323F}"), PatientId= Guid.Parse("493F5E4E-C66C-42FC-93C9-25AEDBA4E3E7")},
+                    new PatientData{Id=Guid.NewGuid(),ScheduleId=Guid.Parse("{29602307-2098-4E0E-922B-B6FB34C1EC0D}"),  Date=new DateTime(2020,03,03), Value="45", PropertyId=Guid.Parse("{A1426260-82BB-4B62-A67A-D43C9321323F}"), PatientId= Guid.Parse("FE134BA1-39CC-45F0-A187-0A5A61FD38EE")},
+                    new PatientData{Id=Guid.NewGuid(),ScheduleId=Guid.Parse("{C7166054-1818-41F4-B60B-7074621905FD}"), Date=new DateTime(2020,03,03), Value="74", PropertyId=Guid.Parse("{A1426260-82BB-4B62-A67A-D43C9321323F}"), PatientId= Guid.Parse("F2CAFE96-A5ED-47ED-B927-2306596AEC3D")},
+                    new PatientData{Id=Guid.NewGuid(),ScheduleId=Guid.Parse("{2D6F3F86-10B5-4816-83E4-5CDFA715A626}"), Date=new DateTime(2020,03,03), Value="71", PropertyId=Guid.Parse("{A1426260-82BB-4B62-A67A-D43C9321323F}"), PatientId= Guid.Parse("493F5E4E-C66C-42FC-93C9-25AEDBA4E3E7")},
 
-                    new PatientData{Id=Guid.NewGuid(), Date=new DateTime(2020,03,03), Value="155", PropertyId=Guid.Parse("{D3FF7AA8-44DB-4CB8-A281-0BE60E1F3D85}"),PatientId= Guid.Parse("FE134BA1-39CC-45F0-A187-0A5A61FD38EE")},
-                    new PatientData{Id=Guid.NewGuid(), Date=new DateTime(2020,03,03), Value="181", PropertyId=Guid.Parse("{D3FF7AA8-44DB-4CB8-A281-0BE60E1F3D85}"), PatientId= Guid.Parse("F2CAFE96-A5ED-47ED-B927-2306596AEC3D")},
-                    new PatientData{Id=Guid.NewGuid(), Date=new DateTime(2020,03,03), Value="178", PropertyId=Guid.Parse("{D3FF7AA8-44DB-4CB8-A281-0BE60E1F3D85}"), PatientId= Guid.Parse("493F5E4E-C66C-42FC-93C9-25AEDBA4E3E7")},
+                    new PatientData{Id=Guid.NewGuid(),ScheduleId=Guid.Parse("{29602307-2098-4E0E-922B-B6FB34C1EC0D}"),  Date=new DateTime(2020,03,03), Value="155", PropertyId=Guid.Parse("{D3FF7AA8-44DB-4CB8-A281-0BE60E1F3D85}"),PatientId= Guid.Parse("FE134BA1-39CC-45F0-A187-0A5A61FD38EE")},
+                    new PatientData{Id=Guid.NewGuid(),ScheduleId=Guid.Parse("{C7166054-1818-41F4-B60B-7074621905FD}"), Date=new DateTime(2020,03,03), Value="181", PropertyId=Guid.Parse("{D3FF7AA8-44DB-4CB8-A281-0BE60E1F3D85}"), PatientId= Guid.Parse("F2CAFE96-A5ED-47ED-B927-2306596AEC3D")},
+                    new PatientData{Id=Guid.NewGuid(),ScheduleId=Guid.Parse("{2D6F3F86-10B5-4816-83E4-5CDFA715A626}"), Date=new DateTime(2020,03,03), Value="178", PropertyId=Guid.Parse("{D3FF7AA8-44DB-4CB8-A281-0BE60E1F3D85}"), PatientId= Guid.Parse("493F5E4E-C66C-42FC-93C9-25AEDBA4E3E7")},
 
-                    new PatientData{Id=Guid.NewGuid(), Date=new DateTime(2020,03,03), Value="Плотность = 0,002гН, Белок = 0,0333 г.л, Глюкоза = Отсутствует", PropertyId=Guid.Parse("{7DAF76F0-0228-497E-B338-BD7A9138C4EF}"), PatientId= Guid.Parse("FE134BA1-39CC-45F0-A187-0A5A61FD38EE")},
-                    new PatientData{Id=Guid.NewGuid(), Date=new DateTime(2020,03,03), Value="Плотность = 0,002гН, Белок = 0,0333 г.л, Глюкоза = Отсутствует", PropertyId=Guid.Parse("{BFC85084-45C8-49B0-AAB9-2B7C763B5333}"), PatientId=Guid.Parse("F2CAFE96-A5ED-47ED-B927-2306596AEC3D")},
-                    new PatientData{Id=Guid.NewGuid(), Date=new DateTime(2020,03,03), Value="Левый желудочек расширен в пределах нормы", PropertyId=Guid.Parse("{396D3DED-543B-4580-BE46-7DF8AA88CE8C}"), PatientId= Guid.Parse("493F5E4E-C66C-42FC-93C9-25AEDBA4E3E7")},
+                    new PatientData{Id=Guid.NewGuid(),ScheduleId=Guid.Parse("{29602307-2098-4E0E-922B-B6FB34C1EC0D}"), Date=new DateTime(2020,03,03), Value="Плотность = 0,002гН, Белок = 0,0333 г.л, Глюкоза = Отсутствует", PropertyId=Guid.Parse("{7DAF76F0-0228-497E-B338-BD7A9138C4EF}"), PatientId= Guid.Parse("FE134BA1-39CC-45F0-A187-0A5A61FD38EE")},
+                    new PatientData{Id=Guid.NewGuid(),ScheduleId=Guid.Parse("{C7166054-1818-41F4-B60B-7074621905FD}"), Date=new DateTime(2020,03,03), Value="Плотность = 0,002гН, Белок = 0,0333 г.л, Глюкоза = Отсутствует", PropertyId=Guid.Parse("{BFC85084-45C8-49B0-AAB9-2B7C763B5333}"), PatientId=Guid.Parse("F2CAFE96-A5ED-47ED-B927-2306596AEC3D")},
+                    new PatientData{Id=Guid.NewGuid(),ScheduleId=Guid.Parse("{2D6F3F86-10B5-4816-83E4-5CDFA715A626}"), Date=new DateTime(2020,03,03), Value="Левый желудочек расширен в пределах нормы", PropertyId=Guid.Parse("{396D3DED-543B-4580-BE46-7DF8AA88CE8C}"), PatientId= Guid.Parse("493F5E4E-C66C-42FC-93C9-25AEDBA4E3E7")},
                 });
 
             modelBuilder.Entity<Conclusion>().HasData(
@@ -147,17 +147,25 @@ namespace MedClinic.Data
                         PatientId = Guid.Parse("493F5E4E-C66C-42FC-93C9-25AEDBA4E3E7"),
                         DoctorId = Guid.Parse("EA63C0AC-949B-42A5-AECF-245F79D3AEC7"),
                         Date = new DateTime(2020, 03,05),
-                        Result ="Домашний покой и ограничение контакта с людьми"},
+                        Result ="Домашний покой и ограничение контакта с людьми",
+                        ScheduleId=Guid.Parse("{2D6F3F86-10B5-4816-83E4-5CDFA715A626}"),
+                    },
+
                     new Conclusion{Id = Guid.NewGuid(),
                         PatientId = Guid.Parse("F2CAFE96-A5ED-47ED-B927-2306596AEC3D"),
                         DoctorId = Guid.Parse("2E82C22C-5FAB-4F51-B204-7C2BAC863A4C"),
                         Date = new DateTime(2020, 03,05),
-                        Result = "Домашний покой и ограничение контакта с людьми"},
+                        Result = "Домашний покой и ограничение контакта с людьми",
+                        ScheduleId=Guid.Parse("{C7166054-1818-41F4-B60B-7074621905FD}"),
+                    },
+
                     new Conclusion{Id = Guid.NewGuid(),
                         PatientId = Guid.Parse("493F5E4E-C66C-42FC-93C9-25AEDBA4E3E7"),
                         DoctorId = Guid.Parse("E7937D1B-FADE-4BE9-825F-6B1CDB18F19A"),
                         Date = new DateTime(2020, 03,05),
-                        Result ="Домашний покой и ограничение контакта с людьми"}
+                        Result ="Домашний покой и ограничение контакта с людьми",
+                        ScheduleId=Guid.Parse("{2D6F3F86-10B5-4816-83E4-5CDFA715A626}"),
+                    }
                 });
         }
 

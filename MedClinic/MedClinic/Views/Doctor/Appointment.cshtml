@@ -7,13 +7,13 @@
         cursor: pointer;
     }
 
-    .errorBox{
+    .errorBox {
         /*border:1px solid red;*/
-        border-radius:3px;
+        border-radius: 3px;
         background: pink;
-        color:red;
-        text-align:center;
-        font-size:18px;
+        color: red;
+        text-align: center;
+        font-size: 18px;
     }
 </style>
 <h1>Запись на прием</h1>
@@ -36,8 +36,8 @@
         <label class="col-sm-3 col-form-label">Время приёма</label>
         <div class="col-sm-9">
             @Html.DropDownListFor(m => m.Hour,
-         Model.Hours,
-         "Выберите из списка", new { @class = "form-control" })
+  Model.Hours,
+  "Выберите из списка", new { @class = "form-control" })
         </div>
     </div>
 
@@ -45,8 +45,8 @@
         <label class="col-sm-3 col-form-label">Статус приёма</label>
         <div class="col-sm-9">
             @Html.DropDownListFor(m => m.State,
-         Model.States,
-         "Выберите из списка", new { @class = "form-control" })
+  Model.States,
+  "Выберите из списка", new { @class = "form-control" })
         </div>
     </div>
     @if (Model.Patient.Id != Guid.Empty)
@@ -61,6 +61,19 @@
         </div>
     }
 
-
-    <input type="submit" class="btn btn-success" value="Сохранить" />
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="submit" class="btn btn-success" value="Сохранить" />
+        </div>
+        @if (Model.State == "Закрыт")
+        {
+            <div class="col-lg-3">
+                <div class="btn btn-success"
+                     onclick="Results('@($"/doctor/AppointmentResult?schedId={Model.ScheduleId}&patientId={Model.Patient?.Id}")')">Результаты записи</div>
+            </div>
+        }
+    </div>
 </form>
+<script>
+    let Results = (url) => { redirect(url); }
+</script>

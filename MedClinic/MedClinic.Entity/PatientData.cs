@@ -6,6 +6,7 @@ namespace MedClinic.Entity
     {
         public Guid Id { get; set; }
         public Guid PropertyId { get; set; }
+        public Guid ScheduleId { get; set; }
         public string Value { get; set; }
         public Guid PatientId { get; set; }
         public DateTime Date { get; set; }

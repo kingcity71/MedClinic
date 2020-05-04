@@ -1,0 +1,73 @@
+﻿@using MedClinic.Models.Doctor;
+@model AppointmentResultViewModel;
+@{
+    ViewData["Title"] = "AppointmentResult";
+}
+<style>
+    .btn:hover {
+        cursor: pointer;
+    }
+
+    .time-line {
+        border: 1px solid gray;
+        border-radius: 3px;
+    }
+        .time-line:hover {
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+</style>
+<div class="text-center">
+    <h1>Итоги записи пациента</h1>
+    <h4>@Model.AppointmentDate.ToShortDateString(), 
+        <a href="/patient/@Model.Patient.Id">
+            @Model.Patient.FullName
+        </a>
+    </h4>
+</div>
+<div class="container">
+    <div class="row" style="font-size:20px">
+        @if (Model.ConclusionId == Guid.Empty)
+        {
+            <a href="/doctor/Conclusion?patientId=@Model.Patient.Id&schedId=@Model.SchedId">
+                Написать заключение
+            </a>
+        }
+        else
+        {
+            <a href="/doctor/Conclusion?ConclusionId=@Model.ConclusionId">
+                Читать/Изменить заключение
+            </a>
+        }
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-10">Результаты анализова пациентов</div>
+        <div class="col-lg-2">
+            <div class="btn btn-success"
+                onclick="patientData('@($"/doctor/patientdata?patientId={Model.Patient.Id}&schedId={Model.SchedId}")')">
+                Добавить
+            </div>
+        </div>
+    </div>
+
+    @if (Model.PatientDatas.Any())
+    {
+        foreach(var data in Model.PatientDatas)
+        {
+            <div class="row time-line m-1 p-1"
+                 style="font-size: 20px "
+                 onclick="patientData('@($"/doctor/patientdata?id={data.Id}")')">
+                <div class="w-100">
+                  Дата : @(data.Date.ToShortDateString())
+                </div>
+                <div class="w-100">
+                    @(data.PropName) : @(data.PropValue)
+                </div>
+            </div>
+        }
+    }
+</div>
+<script>
+    let patientData = (url) => {redirect(url)}
+</script>
