@@ -1,34 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using MedClinic.Data;
+using MedClinic.Entity;
+using MedClinic.Interfaces;
 using MedClinic.Model;
 using MedClinic.Models;
-using MedClinic.Data;
-using Microsoft.EntityFrameworkCore;
-using MedClinic.Entity;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using MedClinic.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedClinic.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly MedClinicContext db;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IPatientService patientService;
         private readonly IDoctorService doctorService;
+        private readonly MedClinicContext db;
 
-        public AccountController(MedClinicContext context, IPatientService patientService, IDoctorService doctorService)
+        public AccountController(UserManager<User> userManager, 
+            RoleManager<IdentityRole> roleManager, 
+            SignInManager<User> signInManager,
+             IPatientService patientService, IDoctorService doctorService,
+             MedClinicContext db)
         {
-            db = context;
+            _userManager = userManager;
+            this.roleManager = roleManager;
+            _signInManager = signInManager;
             this.patientService = patientService;
             this.doctorService = doctorService;
+            this.db = db;
         }
-
-
         public IActionResult Login()
         {
             return View();
@@ -40,95 +49,156 @@ namespace MedClinic.Controllers
         {
             if (ModelState.IsValid)
             {
-                var patient = await db.Patients.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (patient != null)
+                var result =
+                    await _signInManager.PasswordSignInAsync(model.Email, model.Password,false,false);
+                
+                if (result.Succeeded)
                 {
-                    await Authenticate(model.Email, "patient"); // аутентификация
-                    return RedirectToAction("Home", "Patient");
-                }
-                var doctor = await db.Doctors.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (doctor != null)
-                {
-                    await Authenticate(model.Email, "doctor"); // аутентификация
-                    return RedirectToAction("Home", "Doctor");
-                }
-
-                ModelState.AddModelError("Email", "Некорректные логин и(или) пароль");
-            }
-            return View(model);
-        }
-
-        public IActionResult Register()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                if (model.IsDoctor)
-                {
-                    var user = await db.Doctors.FirstOrDefaultAsync(u => u.Email == model.Email);
-                    if (user == null)
+                    var user = await _userManager.FindByNameAsync(model.Email);
+                    var claimsFactory = _signInManager.ClaimsFactory;
+                    
+                    var patient = await db.Patients.FirstOrDefaultAsync(u => user.SystemId == u.Id);
+                    if (patient != null)
                     {
-                        doctorService.CreateDoctor(new DoctorModel()
-                        {
-                            FullName = model.FullName,
-                            Email = model.Email,
-                            BirthDate = model.BirthDate,
-                            Password = model.Password
-                        });
-
-
-                        await Authenticate(model.Email, "doctor"); // аутентификация
-
+                        var roleName = "patient";
+                        var role = await roleManager.FindByNameAsync(roleName);
+                        //await roleManager.AddClaimAsync(role, new Claim("RoleType", roleName));
+                        return RedirectToAction("Home", "Patient");
+                    }
+                    var doctor = await db.Doctors.FirstOrDefaultAsync(u => user.SystemId==u.Id);
+                    if (doctor != null)
+                    {
+                        var roleName = "doctor";
+                        var role = await roleManager.FindByNameAsync(roleName);
+                        await roleManager.AddClaimAsync(role, new Claim("RoleType", roleName));
                         return RedirectToAction("Home", "Doctor");
                     }
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    var user = await db.Patients.FirstOrDefaultAsync(u => u.Email == model.Email);
-                    if (user == null)
-                    {
-                        patientService.CreatePatient(new PatientModel()
-                        {
-                            FullName = model.FullName,
-                            Email = model.Email,
-                            BirthDate = model.BirthDate,
-                            Password = model.Password
-                        });
-
-                        await Authenticate(model.Email,"patient"); // аутентификация
-
-                        return RedirectToAction("Home", "Patient");
-                    }
+                    ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
-                ModelState.AddModelError("Email", "Такой Email уже есть в системе");
+                return View(model);
             }
             return View(model);
         }
 
+        private async Task CreateRole(string name)
+        {
+            await roleManager.CreateAsync(new IdentityRole(name));
+        }
         private async Task Authenticate(string userEmail, string role)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                 new Claim(ClaimsIdentity.DefaultNameClaimType, userEmail),
+                 //new Claim(ClaimsIdentity.DefaultNameClaimType, userEmail),
                  new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
             };
             // создаем объект ClaimsIdentity
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            ClaimsIdentity id = new ClaimsIdentity(claims, 
+                "ApplicationCookie", 
+                ClaimsIdentity.DefaultNameClaimType, 
+                ClaimsIdentity.DefaultRoleClaimType);
             // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
-
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account");
+        }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User
+                {
+                    Email = model.Email,
+                    UserName = model.Email,
+                    BirthDate = model.BirthDate,
+                    SystemId = Guid.NewGuid()
+                };
+                // добавляем пользователя
+                var result = await _userManager.CreateAsync(user, model.Password);
+                user = await _userManager.FindByNameAsync(user.UserName);
+                if (result.Succeeded)
+                {
+                    if (model.IsDoctor)
+                    {
+                        var doctor = await db.Doctors.FirstOrDefaultAsync(u => u.Email == model.Email);
+                        if (doctor == null)
+                        {
+                            var roleName = "doctor";
+                            var role = await roleManager.FindByNameAsync(roleName);
+                            if (role == null)
+                            {
+                                await CreateRole(roleName);
+                                role = await roleManager.FindByNameAsync(roleName);
+                            }
+                            await _userManager.AddToRoleAsync(user, roleName);
+                            //await roleManager.AddClaimAsync(role, new Claim("RoleType", roleName));
+                            doctorService.CreateDoctor(new DoctorModel()
+                            {
+                                Id = user.SystemId,
+                                FullName = model.FullName,
+                                Email = model.Email,
+                                BirthDate = model.BirthDate,
+                                Password = model.Password
+                            });
+                            user = await _userManager.FindByNameAsync(user.UserName);
+                            // установка куки
+                            await _signInManager.SignInAsync(user, false);
+                            return RedirectToAction("Home", "Doctor");
+                        }
+                    }
+                    else
+                    {
+                        var patient = await db.Patients.FirstOrDefaultAsync(u => u.Email == model.Email);
+                        if (patient == null)
+                        {
+                            var roleName = "patient";
+                            var role = await roleManager.FindByNameAsync(roleName);
+                            if (role == null)
+                            {
+                                await CreateRole(roleName);
+                                role = await roleManager.FindByNameAsync(roleName);
+                            }
+                            await _userManager.AddToRoleAsync(user, roleName);
+                            //await roleManager.AddClaimAsync(role, new Claim("RoleType", roleName));
+                            patientService.CreatePatient(new PatientModel()
+                            {
+                                Id = user.SystemId,
+                                FullName = model.FullName,
+                                Email = model.Email,
+                                BirthDate = model.BirthDate,
+                                Password = model.Password
+                            });
+                            user = await _userManager.FindByNameAsync(user.UserName);
+                            // установка куки
+                            await _signInManager.SignInAsync(user, false);
+                            return RedirectToAction("Home", "Patient");
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return View(model);
         }
     }
 }

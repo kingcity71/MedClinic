@@ -12,6 +12,9 @@ using MedClinic.Interfaces;
 using MedClinic.Services;
 using MedClinic.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using MedClinic.Entity;
+using Microsoft.AspNetCore.Identity;
 
 namespace MedClinic
 {
@@ -32,9 +35,17 @@ namespace MedClinic
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
-
+            
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddDbContext<MedClinicContext>();
+            
+            services.AddDbContext<MedClinicContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<IdentityContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityContext>();
+
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<ICommonSerivce, CommonService>();
@@ -63,7 +74,7 @@ namespace MedClinic
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
