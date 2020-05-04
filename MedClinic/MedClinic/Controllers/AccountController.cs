@@ -53,7 +53,7 @@ namespace MedClinic.Controllers
                     return RedirectToAction("Home", "Doctor");
                 }
 
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("Email", "Некорректные логин и(или) пароль");
             }
             return View(model);
         }
@@ -105,7 +105,7 @@ namespace MedClinic.Controllers
                         return RedirectToAction("Home", "Patient");
                     }
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("Email", "Такой Email уже есть в системе");
             }
             return View(model);
         }

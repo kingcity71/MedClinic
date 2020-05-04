@@ -110,7 +110,7 @@ namespace MedClinic.Services
             doctor.Photo = doctorModel.Photo == null && doctor.Photo != null
                 ? doctor.Photo : doctorModel.Photo;
             doctor.SpecializationId = doctorModel.SpecializationId;
-
+            doctor.PlaceDefault = doctorModel.PlaceDefault;
             context.Doctors.Update(doctor);
             context.SaveChanges();
         }

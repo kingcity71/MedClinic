@@ -4,16 +4,83 @@
         margin: 0 auto;
         width: 70%;
     }
+
+    .field-validation-error {
+        color: #b94a48;
+    }
+
+    .field-validation-valid {
+        display: none;
+    }
+
+    input.input-validation-error {
+        border: 1px solid #b94a48 !important;
+    }
+
+    input[type="checkbox"].input-validation-error {
+        border: 0 none;
+    }
+
+    .validation-summary-errors {
+        color: #b94a48;
+    }
+
+    .validation-summary-valid {
+        display: none;
+    }
 </style>
+
 <form asp-action="Register" asp-controller="Account" asp-anti-forgery="true" autocomplete="off">
-    <div class="validation" asp-validation-summary="ModelOnly" />
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
     <div class="centerr container">
         <h2>Регистрация</h2>
-        @Html.Partial("../shared/textbox", ("FullName", "Введите Email", @Model?.FullName, true, "text"))
-        @Html.Partial("../shared/textbox", ("Email", "Введите ФИО", @Model?.Email, true, "text"))
-        @Html.Partial("../shared/datePickerBox", ("BirthDate", "Введите дату рождения", @Model == null ? DateTime.MinValue : @Model.BirthDate))
-        @Html.Partial("../shared/textbox", ("Password", "Введите пароль", @Model?.Password, true, "password"))
-        @Html.Partial("../shared/textbox", ("ConfirmPassword", "Подтвердите пароль", @Model?.ConfirmPassword, true, "password"))
+        <div class="form-group row p-1">
+            <label asp-for="FullName" class="col-lg-3 col-form-label" style="text-wrap:normal">Введите ФИО</label>
+            <div class="col-lg-9">
+                <input type="text" asp-for="FullName" class="form-control">
+                <span asp-validation-for="FullName" />
+            </div>
+        </div>
+        <div class="form-group row p-1">
+            <label asp-for="Email" class="col-lg-3 col-form-label" style="text-wrap:normal">Введите Email</label>
+            <div class="col-lg-9">
+                <input type="text" asp-for="Email" class="form-control">
+                <span asp-validation-for="Email" />
+            </div>
+        </div>
+        <div class="form-group row p-1">
+            <label asp-for="BirthDate" class="col-lg-3 col-form-label" style="text-wrap:normal">Введите дату рождения</label>
+            <div class="col-lg-9">
+                <input type="text" asp-for="BirthDate" width="276"
+                       value="@(Model?.BirthDate==DateTime.MinValue?string.Empty:Model?.BirthDate.ToString("dd.MM.yyyy"))">
+                <span asp-validation-for="BirthDate" />
+            </div>
+            <script>
+                $('#BirthDate').datepicker({
+                    uiLibrary: 'bootstrap4',
+                    format: 'dd.mm.yyyy',
+                    showRightIcon: false
+                });
+            </script>
+        </div>
+        <div class="form-group row p-1">
+            <label asp-for="Password" class="col-lg-3 col-form-label" style="text-wrap:normal">Введите пароль</label>
+            <div class="col-lg-9">
+                <input type="password" asp-for="Password" class="form-control">
+                <span asp-validation-for="Password" />
+            </div>
+        </div>
+        <div class="form-group row p-1">
+            <label asp-for="ConfirmPassword" class="col-lg-3 col-form-label" style="text-wrap:normal">Подтвердите пароль</label>
+            <div class="col-lg-9">
+                <input type="password" asp-for="ConfirmPassword" class="form-control">
+                <span asp-validation-for="ConfirmPassword" />
+            </div>
+        </div>
+        @*@Html.Partial("../shared/textbox", ("Email", "Введите Email", @Model?.Email, true, "text"))*@
+        @*@Html.Partial("../shared/datePickerBox", ("BirthDate", "Введите дату рождения", @Model == null ? DateTime.MinValue : @Model.BirthDate))*@
+        @*@Html.Partial("../shared/textbox", ("Password", "Введите пароль", @Model?.Password, true, "password"))*@
+        @*@Html.Partial("../shared/textbox", ("ConfirmPassword", "Подтвердите пароль", @Model?.ConfirmPassword, true, "password"))*@
 
         <div class="p-1">
             <div class="form-check">
@@ -24,6 +91,5 @@
         <div class="form-group">
             <input type="submit" value="Регистрация" class="btn btn-outline-dark" />
         </div>
-
     </div>
 </form>

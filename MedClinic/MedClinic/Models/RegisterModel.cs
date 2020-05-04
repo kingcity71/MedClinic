@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedClinic.Models.Attr;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MedClinic.Models
@@ -10,9 +11,11 @@ namespace MedClinic.Models
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "Не указана дата рождения")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date, ErrorMessage = "Введите дату в формате ДД.ММ.ГГГГ")]
+        [DateMin(ErrorMessage = "Дата должна быть больше 1920.01.01")]
         public DateTime BirthDate { get; set; }
 
+        [EmailAddress(ErrorMessage ="Введите Email в формате name@domain.domain")]
         [Required(ErrorMessage = "Не указан Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }

@@ -170,7 +170,6 @@ namespace MedClinic.Controllers
         [HttpPost]
         public IActionResult Edit(PatientEditModel patientEditModel)
         {
-            return View(patientEditModel);
             if (ModelState.IsValid)
             {
                 var patientModel = MapPatientModel(patientEditModel);
@@ -203,7 +202,8 @@ namespace MedClinic.Controllers
             var config = new MapperConfiguration(cfg => cfg.CreateMap<PatientEditModel, PatientModel>());
             var mapper = new Mapper(config);
             var patientModel = mapper.Map<PatientModel>(editModel);
-
+            patientModel.IsMan = editModel.Sex == true;
+            patientModel.IsWoman = editModel.Sex == false;
             if (editModel.PhotoFile != null)
             {
                 byte[] imageData = null;

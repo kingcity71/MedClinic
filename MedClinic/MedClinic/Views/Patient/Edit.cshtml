@@ -13,7 +13,7 @@
                 }
                 else
                 {
-                    <img src="@Model.Photo" class="img-thumbnail" />
+                    <img id="pictureBase64" src="@Model.Photo" class="img-thumbnail" />
                 }
             </div>
             <div class="row">
@@ -98,3 +98,17 @@
         </div>
     </div>
 </div>
+<script>
+    $('#PhotoFile').on('change', function () {
+        let el = $(this);
+        var file = el[0].files[0];
+        if (file) {
+            var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#pictureBase64')
+                        .attr('src', e.target.result);
+                }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

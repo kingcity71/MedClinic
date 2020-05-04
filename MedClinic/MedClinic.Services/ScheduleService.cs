@@ -126,7 +126,7 @@ namespace MedClinic.Services
             => context.Schedules.Any(x => x.DoctorId == doctorId && x.Date == date);
         public bool IsTimeToMakeAppointment(Guid patientId, DateTime date)
             => date.Date >= DateTime.Today
-            && context.Schedules.Any(x => x.PatientId == patientId && date == x.Date);
+            && !context.Schedules.Any(x => x.PatientId == patientId && date == x.Date);
 
     }
 }
