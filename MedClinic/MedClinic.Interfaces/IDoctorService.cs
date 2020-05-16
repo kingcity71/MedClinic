@@ -20,5 +20,7 @@ namespace MedClinic.Interfaces
         int GetSchedulesCount(Guid doctorId, string status);
 
         bool IsTherapist(Guid doctorId);
+
+        Dictionary<Guid, string> FindDoctor(string key);
     }
 }

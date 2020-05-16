@@ -31,17 +31,17 @@ namespace MedClinic
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-                });
-            
+            .AddCookie(options =>
+            {
+                options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+            });
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            
+
             services.AddDbContext<MedClinicContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<IdentityContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
@@ -74,7 +74,7 @@ namespace MedClinic
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

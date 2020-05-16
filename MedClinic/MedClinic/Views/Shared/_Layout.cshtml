@@ -40,9 +40,18 @@
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Личный кабинет</a>
-                            </li>
+                            @if (!User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Личный кабинет</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Home">Админ</a>
+                                </li>
+                            }
                             <li class="nav-item">
                                 @if (User.IsInRole("doctor"))
                                 {

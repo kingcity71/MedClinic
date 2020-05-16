@@ -11,6 +11,13 @@ namespace MedClinic.Data
         {
             Database.EnsureCreated();
         }
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Specialization> Specializations { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Conclusion> Conclusions { get; set; }
+        public DbSet<Property> Properties { get; set; }
+        public DbSet<PatientData> PatientDatas { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
@@ -175,15 +182,5 @@ namespace MedClinic.Data
         //            }
         //        });
         //}
-
-        
-
-        public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Patient> Patients { get; set; }
-        public DbSet<Specialization> Specializations { get; set; }
-        public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<Conclusion> Conclusions { get; set; }
-        public DbSet<Property> Properties { get; set; }
-        public DbSet<PatientData> PatientDatas { get; set; }
     }
 }

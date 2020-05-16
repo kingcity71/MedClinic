@@ -17,5 +17,7 @@ namespace MedClinic.Interfaces
         IEnumerable<ConslusionModel> GetConclusions(Guid patientId);
         IEnumerable<ConslusionModel> GetConclusions(Guid patientId, Guid specId);
         IEnumerable<MyScheduleModel> GetMySchedules(Guid id);
+
+        Dictionary<Guid, string> FindPatients(string key);
     }
 }

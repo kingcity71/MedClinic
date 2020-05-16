@@ -149,11 +149,10 @@ namespace MedClinic.Controllers
             var patient = patienService.GetPatient(id);
             return View(patient);
         }
-        [HttpGet("patient/edit")]
-        public IActionResult Edit()
+        [HttpGet("patient/edit/{id}")]
+        public IActionResult Edit(Guid id)
         {
-            var patientEmail = User.Identity.Name;
-            var patient = patienService.GetPatient(patientEmail);
+            var patient = patienService.GetPatient(id);
             var patientEditModel = new PatientEditModel()
             {
                 Id = patient.Id,
@@ -174,6 +173,8 @@ namespace MedClinic.Controllers
             {
                 var patientModel = MapPatientModel(patientEditModel);
                 patienService.UpdatePatient(patientModel);
+                if(User.Identity.Name=="Admin")
+                    return Redirect($"/patient/{patientModel.Id}");
                 return RedirectToAction("Home", "Patient");
             }
             else

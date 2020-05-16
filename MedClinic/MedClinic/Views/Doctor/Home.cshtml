@@ -26,16 +26,18 @@
                         </button>
                     </a>
                 </div>
-                @if (isOwner)
+                @if (isOwner || User.IsInRole("Admin"))
                 {
                     <div class="col-lg-12 p-1">
-                        <a href="\doctor\Edit">
+                        <a href="\doctor\Edit\@Model.Id">
                             <button type="button" class="btn btn-outline-primary w-100">
                                 Редактировать
                             </button>
                         </a>
                     </div>
-
+                }
+                @if (isOwner) 
+                { 
                     <div class="col-lg-12 p-1">
                         <a href="\doctor\MySchedules?currentPage=1">
                             <button type="button" class="btn btn-outline-primary w-100">

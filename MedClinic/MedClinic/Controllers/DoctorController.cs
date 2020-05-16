@@ -198,11 +198,10 @@ namespace MedClinic.Controllers
             return RedirectToAction("ScheduleDate", new { year = year, month = month, day = day });
         }
 
-        [HttpGet]
-        public IActionResult Edit()
+        [HttpGet("doctor/edit/{id}")]
+        public IActionResult Edit(Guid id)
         {
-            var doctorEmail = User.Identity.Name;
-            var doctor = doctorService.GetDoctor(doctorEmail);
+            var doctor = doctorService.GetDoctor(id);
             var doctorEditModel = new DoctorEditModel()
             {
                 Id = doctor.Id,
@@ -232,6 +231,8 @@ namespace MedClinic.Controllers
             {
                 var doctorModel = MapPatientModel(editModel);
                 doctorService.UpdateDoctor(doctorModel);
+                if (User.Identity.Name == "Admin")
+                    return Redirect($"/doctor/{doctorModel.Id}");
                 return RedirectToAction("Home");
             }
             editModel.Specializations = doctorService.GetSpecializations()
@@ -241,6 +242,7 @@ namespace MedClinic.Controllers
                        Value = x.Value.ToString(),
                        Selected = x.Value.ToString() == editModel.SpecializationId.ToString()
                    });
+          
             return View(editModel);
         }
 

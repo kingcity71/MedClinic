@@ -164,5 +164,17 @@ namespace MedClinic.Services
             var patient = mapper.Map<Patient>(patientModel);
             return patient;
         }
+
+        public Dictionary<Guid, string> FindPatients(string key)
+        {
+            var patinets = context.Patients
+                .Where(x => x.FullName.ToLower()
+                .Contains(key.ToLower()));
+
+            var dictionary = new Dictionary<Guid, string>();
+            foreach (var patient in patinets)
+                dictionary.Add(patient.Id, patient.FullName);
+            return dictionary;
+        }
     }
 }

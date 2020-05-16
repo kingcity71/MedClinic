@@ -1,0 +1,60 @@
+﻿@using MedClinic.Models.Admin;
+@model HomePageModel;
+@{
+    ViewData["Title"] = "Home";
+}
+<style>
+    .btn:hover {
+        cursor: pointer;
+    }
+</style>
+<div class="container">
+    
+        <form method="post" class="row">
+    
+                <div class="col-lg-2"></div>
+                <div class="col-lg-7">
+                    <input class="form-control w-100" asp-for="Key" value="@Model.Key" />
+                </div>
+                <div class="col-lg-2">
+                    <button class="btn btn-success">Найти</button>
+                </div>
+                <div class="col-lg-1"></div>
+        </form>
+    <div class="row">
+        @if (!Model.Patients.Any() && !Model.Doctors.Any())
+        {
+            <div class="w-100 text-center">
+                <h1>Ничего не найдено</h1>
+            </div>
+        }
+        else
+        {
+            if (Model.Patients.Any())
+            {
+
+                <div class="w-100 text-center">
+                    <h3>Пациенты</h3>
+
+                    @foreach (var patient in Model.Patients)
+                    {
+                        <a href="/patient/@patient.Key">@patient.Value</a>
+                    }
+                </div>
+            }
+            if (Model.Doctors.Any())
+            {
+
+                <div class="w-100 text-center">
+                    <h3>Докторы</h3>
+
+                    @foreach (var patient in Model.Doctors)
+                    {
+                        <a href="/Doctor/@patient.Key">@patient.Value</a>
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>
+

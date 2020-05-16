@@ -43,12 +43,45 @@ namespace MedClinic.Controllers
             return View();
         }
 
+        private async Task AdminCreate(LoginModel model)
+        {
+            var user = new User
+            {
+                Email = "admin@admin.admin",
+                UserName = "Admin",
+                BirthDate = DateTime.Today,
+                SystemId = Guid.NewGuid()
+            };
+            await _userManager.CreateAsync(user, "P@ssw0rd");
+            await CreateRole("Admin");
+            user = await _userManager.FindByNameAsync("Admin");
+            await _userManager.AddToRoleAsync(user, "Admin");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
+                if (model.Email.ToLower() == "admin")
+                {
+                    var user = await _userManager.FindByNameAsync(model.Email);
+                    if (user == null) await AdminCreate(model);
+                    var resultAdmin =
+                        await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+                    if (resultAdmin.Succeeded)
+                    {
+                        return RedirectToAction("Home", "Admin");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Email", "Неправильный логин и (или) пароль");
+                    }
+                    return View(model);
+                }
+
+
                 var result =
                     await _signInManager.PasswordSignInAsync(model.Email, model.Password,false,false);
                 

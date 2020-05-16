@@ -138,5 +138,14 @@ namespace MedClinic.Services
             var specId = context.Specializations.FirstOrDefault(x=>x.Name.ToLower()=="терапевт")?.Id;
             return (context.Doctors.FirstOrDefault(x => x.Id == doctorId)?.SpecializationId == specId) == true;
         }
+
+        public Dictionary<Guid, string> FindDoctor(string key)
+        {
+            var doctors = context.Doctors.Where(x => x.FullName.ToLower().Contains(key)).ToList();
+            var dictionary = new Dictionary<Guid, string>();
+            foreach (var doctor in doctors)
+                dictionary.Add(doctor.Id, doctor.FullName);
+            return dictionary;
+        }
     }
 }
